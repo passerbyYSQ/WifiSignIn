@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LaunchActivity">
+
+    <ImageView
+        android:id="@+id/img_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="@dimen/len_72" >
+
+        <TextView
+            android:text="Wifi签到"
+            android:textSize="@dimen/len_20"
+            android:textColor="@color/white_alpha_192"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <net.qiujuer.genius.ui.widget.Loading
+            android:id="@+id/loading"
+            android:layout_width="@dimen/len_20"
+            android:layout_height="@dimen/len_20"
+            android:layout_gravity="center"
+            app:gAutoRun="true"
+            app:gForegroundLineSize="1dp"
+            app:gBackgroundColor="@null"
+            app:gForegroundColor="@color/white_alpha_192" />
+
+    </LinearLayout>
+</FrameLayout>

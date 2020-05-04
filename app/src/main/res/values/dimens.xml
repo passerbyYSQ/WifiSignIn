@@ -1,0 +1,8 @@
+<resources>
+    <!-- 状态栏高度 -->
+    <dimen name="statusBarSize">25dp</dimen>
+    <!-- 状态栏高度和标题栏高度之和 -->
+    <dimen name="actionBarWithStatusBarSize">73dp</dimen>
+
+    <dimen name="navigationBarHeight">48dp</dimen>
+</resources>

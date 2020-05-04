@@ -1,0 +1,47 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        google()
+        mavenCentral()
+        //jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        google()
+        //jcenter()
+        maven { url "https://www.jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    androidxVersion = '1.1.0'
+    // Json解析框架
+    gsonVersion = '2.8.0'
+    // 网络请求框架
+    retrofitVersion = '2.1.0'
+    // SQLLite操作框架
+    dbflowVersion = '4.0.0-beta7'
+    // 图片加载框架
+    glideVersion = '4.11.0'
+    // qiujuer老师写的genius类库
+    geniusVersion = '2.0.1'
+    // butterknife
+    butterknifeVersion = '10.2.1'
+    // 圆形图片
+    circleimageviewVersion = '3.0.2'
+}
