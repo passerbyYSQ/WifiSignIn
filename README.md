@@ -1,4 +1,4 @@
 # WifiSignIn
-Wifi签到的Android客户端
+Wifi签到的Android
 
 团队开发尝试
