@@ -1,17 +1,12 @@
 package com.ysq.wifisignin.bean.api.account;
 
-import com.google.gson.annotations.Expose;
-
 /**
  * @author passerbyYSQ
  * @create 2020-04-11 14:19
  */
 public class RegisterModel {
-    @Expose
     private String phone;
-    @Expose
     private String userName;
-    @Expose
     private String password;
 
     public RegisterModel(String phone, String userName, String password) {

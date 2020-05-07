@@ -12,6 +12,12 @@
         android:id="@+id/txt_self_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="默认"/>
+        android:text="没有值"/>
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退出登录" />
 
 </LinearLayout>

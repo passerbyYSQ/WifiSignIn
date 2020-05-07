@@ -28,4 +28,8 @@
         <item name="android:windowBackground">@color/windowsBackgroundLight</item>
     </style>
 
+    <style name="CheckBox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_selector</item>
+    </style>
+
 </resources>

@@ -7,10 +7,13 @@ import com.google.gson.annotations.Expose;
  * @create 2020-04-11 15:57
  */
 public class LoginModel {
-    @Expose
     private String phone;
-    @Expose
     private String password;
+
+    public LoginModel(String phone, String password) {
+        this.phone = phone;
+        this.password = password;
+    }
 
     public String getPhone() {
         return phone;

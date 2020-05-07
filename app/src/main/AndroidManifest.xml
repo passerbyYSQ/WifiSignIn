@@ -13,12 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.user.LoginActivity"></activity>
         <!--
         注意，由于 LaunchActivity 在代码中动态设置了顶部状态栏透明，所以
         theme不能使用@style/AppTheme.TransStatusBar。否则顶部状态栏透明
         的效果不生效！
         -->
-        <activity android:name=".LaunchActivity"
+        <activity
+            android:name=".LaunchActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,11 +28,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.RegisterActivity"></activity>
-        <activity android:name=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme">
-
-        </activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ui.activity.user.RegisterActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

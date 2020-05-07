@@ -19,6 +19,8 @@ public class Account {
     private static final String KEY_USER_ID = "KEY_USER_ID";
     private static final String KEY_ACCOUNT = "KEY_ACCOUNT";
 
+    private static SharedPreferences sp;
+
     // 登录状态的token，用来接口请求
     private static String token;
     // 登录的用户Id
@@ -31,7 +33,7 @@ public class Account {
      */
     private static void save(Context context) {
         // 获取数据持久化的SharedPreferences
-        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
+        sp = context.getSharedPreferences(Account.class.getName(),
                 Context.MODE_PRIVATE);
 
         // 存储数据
@@ -48,7 +50,7 @@ public class Account {
      */
     public static void load(Context context) {
         // 获取数据持久化的SharedPreferences
-        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
+        sp = context.getSharedPreferences(Account.class.getName(),
                 Context.MODE_PRIVATE);
 
         token = sp.getString(KEY_TOKEN, "");
@@ -64,6 +66,7 @@ public class Account {
     public static boolean isLogin() {
         // 用户Id和Token不为空表示已经登录
         return userId != null
+                && userId != 0
                 && !TextUtils.isEmpty(token)
                 && !TextUtils.isEmpty(phone);
     }
@@ -79,6 +82,18 @@ public class Account {
         Account.phone = self.getPhone();
         Account.userId = self.getUserId();
         save(Application.getInstance());
+    }
+
+    public static void logout() {
+        sp.edit().clear().commit();
+
+        SQLite.delete()
+                .from(User.class)
+                .where(User_Table.userId.eq(userId));
+
+        token = null;
+        userId = null;
+        phone = null;
     }
 
 

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.ysq.wifisignin.Factory;
 import com.ysq.wifisignin.data.Account;
+import com.ysq.wifisignin.data.Constant;
 
 import java.io.IOException;
 
@@ -73,7 +74,7 @@ public class NetWork {
 
         Retrofit.Builder builder = new Retrofit.Builder();
 
-        instance.retrofit = builder.baseUrl("http://114.55.219.55:8690/api/")
+        instance.retrofit = builder.baseUrl(Constant.API_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create(Factory.getGson())) //设置Json解析器
                 .build();

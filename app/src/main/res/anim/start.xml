@@ -7,7 +7,7 @@
     android:repeatCount="0"
     android:repeatMode="restart"
     android:startOffset="0"
-    android:fromAlpha="0.5"
+    android:fromAlpha="0.7"
     android:toAlpha="1.0">
 
 </alpha>

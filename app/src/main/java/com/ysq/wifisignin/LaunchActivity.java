@@ -14,7 +14,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.ysq.wifisignin.data.Account;
 import com.ysq.wifisignin.ui.activity.MainActivity;
+import com.ysq.wifisignin.ui.activity.user.LoginActivity;
+import com.ysq.wifisignin.ui.activity.user.RegisterActivity;
 import com.ysq.wifisignin.ui.common.BaseActivity;
 
 import net.qiujuer.genius.ui.widget.Loading;
@@ -38,7 +41,13 @@ public class LaunchActivity extends BaseActivity {
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
-            MainActivity.show(LaunchActivity.this);
+
+            if (Account.isLogin()) {
+                MainActivity.show(LaunchActivity.this);
+            } else {
+                LoginActivity.show(LaunchActivity.this);
+            }
+
             finish();
             return true;
         }
