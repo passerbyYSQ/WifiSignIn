@@ -28,6 +28,8 @@ public class Account {
     // 登录的账户（phone）
     private static String phone;
 
+    private static User self;
+
     /**
      * 存储到XML文件，持久化
      */
@@ -57,6 +59,7 @@ public class Account {
         userId = sp.getInt(KEY_USER_ID, 0);
         phone = sp.getString(KEY_ACCOUNT, "");
 
+        self = getSelf();
     }
 
     /**
@@ -109,7 +112,7 @@ public class Account {
      * 获取当前登录的用户信息
      * @return
      */
-    public static User getUser() {
+    public static User getSelf() {
         // 如果为null，返回一个新new的User，否则从数据库查询
         return userId == 0 ? new User() :
                 SQLite.select()

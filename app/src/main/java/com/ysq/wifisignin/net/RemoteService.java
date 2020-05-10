@@ -3,6 +3,7 @@ package com.ysq.wifisignin.net;
 import com.ysq.wifisignin.bean.ResponseModel;
 import com.ysq.wifisignin.bean.api.account.LoginModel;
 import com.ysq.wifisignin.bean.api.account.RegisterModel;
+import com.ysq.wifisignin.bean.api.user.UpdateUserInfoModel;
 import com.ysq.wifisignin.bean.db.User;
 
 import retrofit2.Call;
@@ -30,6 +31,12 @@ public interface RemoteService {
     @POST("account/login")
     Call<ResponseModel<User>> login(@Body LoginModel model);
 
+    // 退出登录
     @PUT("account/logout")
     Call<ResponseModel<Boolean>> logout();
+
+    // 修改个人信息
+    @PUT("user/info")
+    Call<ResponseModel<User>> updateUserInfo(@Body UpdateUserInfoModel model);
+
 }

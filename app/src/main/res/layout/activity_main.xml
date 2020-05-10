@@ -20,4 +20,10 @@
         android:layout_height="wrap_content"
         android:text="退出登录" />
 
+    <Button
+        android:id="@+id/btn_update_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="修改个人信息" />
+
 </LinearLayout>
