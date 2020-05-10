@@ -223,14 +223,17 @@ public class UpdateInfoActivity extends BaseActivity {
                             case 0: {
                                 mSex.setText("男");
                                 UpdateInfoActivity.this.sex = User.MALE;
+                                break;
                             }
                             case 1: {
                                 mSex.setText("女");
                                 UpdateInfoActivity.this.sex = User.FEMALE;
+                                break;
                             }
                             case 2: {
                                 mSex.setText("保密");
                                 UpdateInfoActivity.this.sex = User.SECRET;
+                                break;
                             }
                         }
                         return true;
