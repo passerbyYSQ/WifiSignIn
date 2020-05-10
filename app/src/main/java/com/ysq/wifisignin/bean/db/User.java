@@ -17,8 +17,8 @@ import java.util.Date;
 @Table(database = AppDatabase.class)
 public class User extends BaseModel {
 
-    public static final Integer FEMALE = 0; // 男性
-    public static final Integer MALE = 1; // 女性
+    public static final Integer FEMALE = 0; // 女
+    public static final Integer MALE = 1; // 男性
     public static final Integer SECRET = 3; // 保密
 
     @PrimaryKey

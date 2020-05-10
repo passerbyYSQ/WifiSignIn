@@ -11,4 +11,7 @@ public interface Constant {
     String API_URL = "http://114.55.219.55:8690/api/";
 
     String PRIVACY_URL = "http://www.mob.com/about/policy";
+
+    String ALIYUN_ACCESS_KEY_ID = "LTAI4FnM6LpGsjE2qJ8sEqkA";
+    String ALIYUN_ACCESS_KEY_SECRET = "LjVhzlltTdYXbeOfrFUtapmhzWhYut";
 }

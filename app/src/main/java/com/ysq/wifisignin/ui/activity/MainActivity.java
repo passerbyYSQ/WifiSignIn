@@ -1,17 +1,12 @@
 package com.ysq.wifisignin.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ysq.wifisignin.Application;
 import com.ysq.wifisignin.R;
@@ -20,8 +15,10 @@ import com.ysq.wifisignin.data.Account;
 import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.ui.activity.user.LoginActivity;
+import com.ysq.wifisignin.ui.activity.user.UpdateInfoActivity;
 import com.ysq.wifisignin.ui.common.ActivityCollector;
 import com.ysq.wifisignin.ui.common.BaseActivity;
+import com.ysq.wifisignin.util.UiHelper;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,6 +34,8 @@ public class MainActivity extends BaseActivity {
     TextView mSelf;
     @BindView(R.id.btn_logout)
     Button mLogout;
+    @BindView(R.id.btn_update_user)
+    Button mUpdateSelf;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -47,6 +46,11 @@ public class MainActivity extends BaseActivity {
         super.initWidget();
         mSelf = findViewById(R.id.txt_self_info);
         mSelf.setText("token：" + Account.getToken());
+    }
+
+    @OnClick(R.id.btn_update_user)
+    void onUpdateSelfClick() {
+        UpdateInfoActivity.show(this);
     }
 
     @OnClick(R.id.btn_logout)
@@ -66,7 +70,7 @@ public class MainActivity extends BaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showToast("退出失败，服务端错误");
+                            UiHelper.showToast("退出失败，服务端错误");
                         }
                     });
                 }
@@ -77,12 +81,11 @@ public class MainActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        showToast("网络错误");
+                        UiHelper.showToast("网络错误");
                     }
                 });
             }
         });
-
     }
 
     @Override
@@ -130,7 +133,5 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    private void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-    }
+
 }

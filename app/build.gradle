@@ -46,6 +46,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxVersion"
     // material(design)
     implementation "com.google.android.material:material:$rootProject.ext.androidxVersion"
+    // cardView
+    implementation "androidx.cardview:cardview:1.0.0"
 
     // retrofit 网络请求框架
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
@@ -63,6 +65,7 @@ dependencies {
 
     // 图片加载框架
     implementation "com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${rootProject.ext.glideVersion}"
 
     // qiujuer写的genius类库
     // 里面有一些常用控件的封装，以及定义了常用的长度和颜色
@@ -77,4 +80,20 @@ dependencies {
     // circleImage
     implementation "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
 
+    // 仿ios dialog
+    implementation "com.mylhyl:circleDialog:$rootProject.ext.iosDialogVersion"
+
+    // 图片选择器
+    // 基础组件
+    //implementation "com.github.qingmei2:rximagepicker:$rootProject.ext.rximagepickerVersion"
+    // 自定义UI层基础组件
+    //implementation "com.github.qingmei2:rximagepicker_support:$rootProject.ext.rximagepickerVersion"
+    // 微信图片选择器
+    //implementation "com.github.qingmei2:rximagepicker_support_wechat:$rootProject.ext.rximagepickerVersion"
+
+    // 用于裁剪图片的插件
+    implementation "com.yalantis:ucrop:$rootProject.ext.ucropVersion"
+
+    // 阿里对象存储OSS
+    implementation 'com.aliyun.dpa:oss-android-sdk:+'
 }

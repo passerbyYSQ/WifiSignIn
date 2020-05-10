@@ -1,22 +1,22 @@
 package com.ysq.wifisignin.bean.api.user;
 
-import com.google.gson.annotations.Expose;
-import com.ysq.wifisignin.bean.db.User;
-
 /**
  * @author passerbyYSQ
  * @create 2020-04-11 16:07
  */
 public class UpdateUserInfoModel {
-    @Expose
+
     private String userName;
-    @Expose
     private String photo;
-    @Expose
     private Integer sex;
-    @Expose
     private String description; // 描述可以改为空
 
+    public UpdateUserInfoModel(String userName, String photo, Integer sex, String description) {
+        this.userName = userName;
+        this.photo = photo;
+        this.sex = sex;
+        this.description = description;
+    }
 
     public String getUserName() {
         return userName;
