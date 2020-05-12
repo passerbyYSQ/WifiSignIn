@@ -47,7 +47,8 @@
 
         <ImageView
             android:id="@+id/img_camera"
-            android:elevation="@dimen/len_2"
+            android:elevation="@dimen/len_4"
+            android:outlineProvider="bounds"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_camera1"
@@ -212,6 +213,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_border_corner"
         android:textColor="@color/colorAccent"
+        android:elevation="@dimen/len_4"
+        android:outlineProvider="bounds"
         android:text="保存修改" />
 
 

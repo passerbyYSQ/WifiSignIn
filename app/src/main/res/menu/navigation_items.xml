@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_group"
+        android:icon="@drawable/ic_group"
+        android:title="我的群组"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_initiate"
+        android:icon="@drawable/ic_initiate"
+        android:title="我发起的签到"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_personal"
+        android:icon="@drawable/ic_username"
+        android:title="个人中心"
+        app:showAsAction="ifRoom" />
+</menu>

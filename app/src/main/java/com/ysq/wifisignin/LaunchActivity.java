@@ -1,11 +1,7 @@
 package com.ysq.wifisignin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -13,17 +9,17 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.ysq.wifisignin.data.Account;
 import com.ysq.wifisignin.ui.activity.MainActivity;
 import com.ysq.wifisignin.ui.activity.user.LoginActivity;
-import com.ysq.wifisignin.ui.activity.user.RegisterActivity;
 import com.ysq.wifisignin.ui.common.BaseActivity;
 
 import net.qiujuer.genius.ui.widget.Loading;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * App的启动页面。一旦打开App，就会首先进入启动页面
@@ -89,7 +85,7 @@ public class LaunchActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mLoading.setProgress(1);
+                //mLoading.setProgress(1);
                 mLoading.stop();
                 mHandler.sendEmptyMessageDelayed(0, 1000);
             }

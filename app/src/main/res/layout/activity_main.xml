@@ -1,29 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="12dp"
     tools:context=".ui.activity.MainActivity">
 
-    <TextView
-        android:id="@+id/txt_self_info"
+    <!-- 之所以给Toolbar加上id，防止之后给它加载背景 -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="没有值"/>
+        android:layout_height="@dimen/actionBarWithStatusBarSize"
+        android:elevation="@dimen/len_2"
+        android:outlineProvider="bounds"
+        android:background="@drawable/bg_src_morning"
+        tools:targetApi="lollipop">
 
-    <Button
-        android:id="@+id/btn_logout"
+        <!-- 帧布局管理区不包括顶部状态栏的部分，所以marginTop属性将顶部状态栏部分从帧布局管理器中移除 -->
+        <FrameLayout
+            android:layout_marginTop="@dimen/statusBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/len_4"
+            android:paddingRight="@dimen/len_4">
+
+            <!--自定义控件，预览会报错，需要build之后报错才消失-->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:clickable="true"
+                android:id="@+id/img_portrait"
+                android:layout_width="@dimen/len_40"
+                android:layout_height="@dimen/len_40"
+                android:layout_margin="@dimen/len_4"
+                android:padding="@dimen/len_4"
+                android:foreground="@drawable/ic_touch_menu"
+                android:src="@drawable/passerby"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+            <!-- center_vertical不加也可以，因为标题栏高度为48，margin=4已经确保上下居中了 -->
+            <ImageView
+                android:clickable="true"
+                android:id="@+id/img_stub"
+                android:backgroundTint="@color/white"
+                android:layout_width="@dimen/len_40"
+                android:layout_height="@dimen/len_40"
+                android:padding="@dimen/len_10"
+                android:contentDescription="@string/app_name"
+                android:foreground="@drawable/ic_touch_menu"
+                tools:src="@drawable/ic_search"
+                android:layout_margin="@dimen/len_4"
+                android:layout_gravity="end|center_vertical"
+                android:scaleType="centerInside"/>
+
+        </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- 用来装fragment的容器（父布局） -->
+    <FrameLayout
+        android:id="@+id/lay_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="退出登录" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/len_52"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <Button
-        android:id="@+id/btn_update_user"
+    <!-- FloatActionButton的根布局必须是CoordinatorLayout，否则显示不出来
+      android:layout_marginBottom="@dimen/len_68"
+     只有设置android:clickable="true"或者添加点击事件之后，点击时的遮罩效果才显示
+     -->
+    <net.qiujuer.genius.ui.widget.FloatActionButton
+        android:clickable="true"
+        android:id="@+id/btn_action"
+        android:src="@drawable/ic_create_group"
+        android:tint="@color/white"
+        android:padding="@dimen/len_16"
+        android:foreground="@drawable/ic_touch_menu"
+        app:gBackgroundColor="@color/colorAccent"
+        android:layout_width="@dimen/len_52"
+        android:layout_height="@dimen/len_52"
+        app:layout_anchor="@id/lay_container"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginBottom="@dimen/len_64"
+        android:layout_marginEnd="@dimen/len_16"
+        android:translationY="@dimen/len_76"
+        />
+
+    <!--
+        android:elevation="@dimen/len_4"  // 阴影宽度
+        android:outlineProvider="bounds"  // 阴影的方式
+    -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        tools:visibility="visible"
+        android:id="@+id/navigation"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="修改个人信息" />
+        android:layout_height="@dimen/len_52"
+        android:layout_gravity="bottom"
+        app:menu="@menu/navigation_items"
+        app:itemIconTint="@color/text_nav"
+        app:itemTextColor="@color/text_nav"
+        android:elevation="@dimen/len_4"
+        android:outlineProvider="bounds"
+        android:translationZ="@dimen/len_8"
+        tools:targetApi="lollipop" />
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
