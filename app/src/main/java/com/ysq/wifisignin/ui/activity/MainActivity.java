@@ -18,11 +18,13 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ysq.wifisignin.R;
 import com.ysq.wifisignin.data.Account;
+import com.ysq.wifisignin.ui.activity.group.GroupCreateActivity;
 import com.ysq.wifisignin.ui.common.BaseActivity;
 import com.ysq.wifisignin.ui.common.NavHelper;
 import com.ysq.wifisignin.ui.frag.main.MyGroupFragment;
 import com.ysq.wifisignin.ui.frag.main.MyInitiateFragment;
 import com.ysq.wifisignin.ui.frag.main.PersonalCenterFragment;
+import com.ysq.wifisignin.util.UiHelper;
 
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
@@ -32,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity
         implements NavHelper.OnTabChangedListener<String>,
-        BottomNavigationView.OnNavigationItemSelectedListener {
+        BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     @BindView(R.id.appbar)
     View mAppbarLay;
@@ -81,28 +83,7 @@ public class MainActivity extends BaseActivity
 
         mNavigation.setOnNavigationItemSelectedListener(this);
 
-        // 裁剪并加载顶部标题栏的背景
-        // 4.11.0新版本已经弃用ViewTarget，GlideDrawable也去掉了
-//        Glide.with(this)
-//                .load(R.drawable.bg_src_morning)
-//                .centerCrop()
-//                .into(new CustomViewTarget<View, Drawable>(mAppbarLay) {
-//                    @Override
-//                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-//                        Log.e("顶部背景onLoadFailed", errorDrawable.toString());
-//                    }
-//
-//                    @Override
-//                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-//                        this.view.setBackground(resource);
-//                    }
-//
-//                    @Override
-//                    protected void onResourceCleared(@Nullable Drawable placeholder) {
-//                        Log.e("顶部背景onLoadFailed", placeholder.toString());
-//                    }
-//                });
-
+        mFloatAction.setOnClickListener(this);
     }
 
     @Override
@@ -175,5 +156,20 @@ public class MainActivity extends BaseActivity
     public void onTabChanged(NavHelper.Tab<String> newTab, NavHelper.Tab<String> oldTab) {
         // 更新顶部标题
         mTitle.setText(newTab.extra);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_action: {
+                NavHelper.Tab<String> currentTab = mNavHelper.getCurrentTab();
+                if (currentTab.clx == MyGroupFragment.class) {
+                    GroupCreateActivity.show(this);
+                } else if (currentTab.clx == MyInitiateFragment.class) {
+                    UiHelper.showToast("我发起的签到");
+                }
+                break;
+            }
+        }
     }
 }

@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ysq.wifisignin.R;
 import com.ysq.wifisignin.bean.ResponseModel;
@@ -92,9 +91,6 @@ public class LoginActivity extends BaseActivity {
         } else if (TextUtils.isEmpty(password)) {
             UiHelper.showToast("请输入密码");
         } else {
-            mLogin.setText("");
-            mLoading.start();
-
             loginRequest(new LoginModel(phone, password));
         }
     }
@@ -111,6 +107,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loginRequest(LoginModel model) {
+        mLogin.setText("");
+        mLoading.start();
+
         RemoteService service = NetWork.remote();
         Call<ResponseModel<User>> call = service.login(model);
         // 网络请求的回调

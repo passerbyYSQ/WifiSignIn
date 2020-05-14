@@ -1,14 +1,6 @@
 package com.ysq.wifisignin.ui.activity.user;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,14 +10,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.callback.ConfigItems;
 import com.mylhyl.circledialog.params.ItemsParams;
@@ -107,11 +103,12 @@ public class UpdateInfoActivity extends BaseActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @OnClick(R.id.btn_update)
     void onUpdateClick() {
         String username = mUsername.getText().toString().trim();
         String description = mDescription.getText().toString().trim();
+
         UpdateUserInfoModel model = new UpdateUserInfoModel(
                 username, portraitUrl, sex, description);
         updateUserInfoRequest(model);
@@ -370,7 +367,7 @@ public class UpdateInfoActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(url)) {
                             // 将url暂存起来，之后存储到服务器
                             UpdateInfoActivity.this.portraitUrl = url;
-                            Log.e("阿里oss：", url);
+                            //Log.e("阿里oss：", url);
                             // 更新界面
                             Glide.with(UpdateInfoActivity.this)
                                     .load(localPath)
@@ -386,7 +383,7 @@ public class UpdateInfoActivity extends BaseActivity {
     }
 
     // 请求修改信息
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void updateUserInfoRequest(UpdateUserInfoModel model) {
         // 显示Loading
         showLoading();

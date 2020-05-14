@@ -1,6 +1,6 @@
 package com.ysq.wifisignin.bean.db;
 
-import com.google.gson.annotations.Expose;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.Date;
 
@@ -8,29 +8,21 @@ import java.util.Date;
  * @author passerbyYSQ
  * @create 2020-04-11 22:12
  */
-public class Group {
-    @Expose
+public class Group extends BaseModel {
+
     private Integer groupId;
-    @Expose
     private String groupName;
-    @Expose
     private String enterPassword;
-    @Expose
     private String photo;
-    @Expose
     private String announcement;
-    @Expose
     private String description;
 
-    @Expose
     private Integer creatorId;
-    @Expose
     private User creator; // 需要的时候再去获取并设置进去
 
-    @Expose
     private Date createAt;
-    @Expose
     private Date updateAt;
+
 
     public Group() {
     }
@@ -126,5 +118,21 @@ public class Group {
 
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "groupId=" + groupId +
+                ", groupName='" + groupName + '\'' +
+                ", enterPassword='" + enterPassword + '\'' +
+                ", photo='" + photo + '\'' +
+                ", announcement='" + announcement + '\'' +
+                ", description='" + description + '\'' +
+                ", creatorId=" + creatorId +
+                ", creator=" + creator +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                '}';
     }
 }

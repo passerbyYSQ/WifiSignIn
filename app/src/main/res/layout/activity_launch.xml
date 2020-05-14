@@ -31,7 +31,7 @@
             android:layout_height="@dimen/len_20"
             android:layout_gravity="center"
             app:gAutoRun="true"
-            app:gForegroundLineSize="2dp"
+            app:gForegroundLineSize="1dp"
             app:gBackgroundColor="@null"
             app:gForegroundColor="@color/white_alpha_192" />
 

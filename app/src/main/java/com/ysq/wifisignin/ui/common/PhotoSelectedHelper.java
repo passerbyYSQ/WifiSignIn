@@ -1,14 +1,15 @@
 package com.ysq.wifisignin.ui.common;
 
-import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.RequiresApi;
 
 import com.ysq.wifisignin.Application;
@@ -19,6 +20,16 @@ import com.ysq.wifisignin.Application;
  * @create 2020-05-10 13:42
  */
 public class PhotoSelectedHelper {
+
+    // 获取drawable的本地路径
+    public static Uri getDrawableUri(@DrawableRes int drawable) {
+        Resources res = Application.getInstance().getResources();
+        Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + res.getResourcePackageName(drawable) + "/" +
+                res.getResourceTypeName(drawable) + "/" +
+                res.getResourceEntryName(drawable));
+        return uri;
+    }
 
     public static String parseImgUri(Uri imgUri) {
         return Build.VERSION.SDK_INT >= 19 ?

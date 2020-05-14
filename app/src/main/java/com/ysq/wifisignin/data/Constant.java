@@ -14,4 +14,6 @@ public interface Constant {
 
     String ALIYUN_ACCESS_KEY_ID = "LTAI4FnM6LpGsjE2qJ8sEqkA";
     String ALIYUN_ACCESS_KEY_SECRET = "LjVhzlltTdYXbeOfrFUtapmhzWhYut";
+
+    String DEFAULT_PORTRAIT_URL = "https://italker-ysq.oss-cn-shenzhen.aliyuncs.com/default/bg_src_morning.jpg";
 }

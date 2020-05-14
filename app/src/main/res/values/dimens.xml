@@ -1,4 +1,9 @@
 <resources>
+    <!-- 头像高度 -->
+    <dimen name="portraitMinSize">@dimen/len_36</dimen>
+    <dimen name="portraitSize">@dimen/len_52</dimen>
+    <dimen name="portraitMaxSize">@dimen/len_64</dimen>
+
     <!-- 状态栏高度 -->
     <dimen name="statusBarSize">25dp</dimen>
     <!-- 状态栏高度和标题栏高度之和 -->

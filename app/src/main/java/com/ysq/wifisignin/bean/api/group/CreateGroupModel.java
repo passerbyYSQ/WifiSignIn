@@ -1,6 +1,5 @@
 package com.ysq.wifisignin.bean.api.group;
 
-import com.google.gson.annotations.Expose;
 import com.ysq.wifisignin.bean.db.Group;
 
 
@@ -9,17 +8,21 @@ import com.ysq.wifisignin.bean.db.Group;
  * @create 2020-04-11 22:07
  */
 public class CreateGroupModel {
-    @Expose
+
     private String groupName;
-    @Expose
     private String enterPassword; // 加群密码
-    @Expose
     private String photo; // 群头像
-    @Expose
     private String description; // 群描述
-    @Expose
     private String alias; // 在群里的备注名
 
+    public CreateGroupModel(String groupName, String enterPassword, String photo,
+                            String description, String alias) {
+        this.groupName = groupName;
+        this.enterPassword = enterPassword;
+        this.photo = photo;
+        this.description = description;
+        this.alias = alias;
+    }
 
     public Group buildGroup() {
         Group group = new Group();
