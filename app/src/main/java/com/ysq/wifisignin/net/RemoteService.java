@@ -3,11 +3,16 @@ package com.ysq.wifisignin.net;
 import com.ysq.wifisignin.bean.ResponseModel;
 import com.ysq.wifisignin.bean.api.account.LoginModel;
 import com.ysq.wifisignin.bean.api.account.RegisterModel;
+import com.ysq.wifisignin.bean.api.group.CreateGroupModel;
 import com.ysq.wifisignin.bean.api.user.UpdateUserInfoModel;
+import com.ysq.wifisignin.bean.db.Group;
 import com.ysq.wifisignin.bean.db.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
@@ -39,4 +44,11 @@ public interface RemoteService {
     @PUT("user/info")
     Call<ResponseModel<User>> updateUserInfo(@Body UpdateUserInfoModel model);
 
+    // 创建群
+    @POST("group/create")
+    Call<ResponseModel<Group>> createGroup(@Body CreateGroupModel model);
+
+    // 创建群
+    @GET("group/list")
+    Call<ResponseModel<List<Group>>> getJoinedGroup();
 }

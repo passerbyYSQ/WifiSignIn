@@ -118,14 +118,15 @@
             android:background="@drawable/logbutton" />
 
         <net.qiujuer.genius.ui.widget.Loading
+            android:visibility="visible"
             android:id="@+id/loading"
-            android:layout_width="@dimen/len_28"
-            android:layout_height="@dimen/len_28"
+            android:layout_width="@dimen/len_20"
+            android:layout_height="@dimen/len_20"
             android:layout_gravity="center"
-            app:gAutoRun="false"
+            app:gAutoRun="true"
+            app:gForegroundLineSize="1dp"
             app:gBackgroundColor="@null"
-            app:gForegroundColor="@color/white"
-            app:gForegroundLineSize="2dp" />
+            app:gForegroundColor="@color/white_alpha_192" />
 
     </FrameLayout>
 

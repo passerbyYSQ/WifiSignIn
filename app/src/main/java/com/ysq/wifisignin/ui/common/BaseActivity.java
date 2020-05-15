@@ -1,27 +1,14 @@
 package com.ysq.wifisignin.ui.common;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.mylhyl.circledialog.BaseCircleDialog;
 import com.mylhyl.circledialog.CircleDialog;
-import com.mylhyl.circledialog.callback.ConfigProgress;
 import com.mylhyl.circledialog.params.ProgressParams;
 import com.mylhyl.circledialog.res.values.CircleColor;
-import com.ysq.wifisignin.R;
 
 import butterknife.ButterKnife;
 
@@ -91,12 +78,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void showLoading() {
         progressDialog = new CircleDialog.Builder()
                 .setProgressStyle(ProgressParams.STYLE_SPINNER)//STYLE_HORIZONTAL 或 STYLE_SPINNER
                 .setProgressText("Loading...")
-                .setProgressColor(CircleColor.FOOTER_BUTTON_TEXT_POSITIVE)
+                //.setProgressColor(CircleColor.FOOTER_BUTTON_TEXT_POSITIVE)
                 .setWidth((float) 0.6)
                 .show(getSupportFragmentManager());
     }

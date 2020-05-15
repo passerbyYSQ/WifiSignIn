@@ -60,4 +60,6 @@ public class Application extends android.app.Application {
         File path = new File(dir, SystemClock.uptimeMillis() + ".jpg");
         return path.getAbsoluteFile();
     }
+
+
 }

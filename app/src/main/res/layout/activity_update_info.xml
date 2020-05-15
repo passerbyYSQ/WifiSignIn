@@ -47,10 +47,12 @@
 
         <ImageView
             android:id="@+id/img_camera"
-            android:elevation="@dimen/len_4"
-            android:outlineProvider="bounds"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginEnd="@dimen/len_4"
+            android:layout_marginBottom="@dimen/len_4"
+            android:elevation="@dimen/len_4"
+            android:outlineProvider="bounds"
             android:src="@drawable/ic_camera1"
             app:layout_constraintBottom_toBottomOf="@+id/img_portrait"
             app:layout_constraintEnd_toEndOf="@+id/img_portrait" />
