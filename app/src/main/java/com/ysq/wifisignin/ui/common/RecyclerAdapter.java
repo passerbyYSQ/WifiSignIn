@@ -173,7 +173,7 @@ public abstract class RecyclerAdapter<DataType>
      */
     public void replace(Collection<DataType> dataList) {
         mDataList.clear();
-        if (dataList == null || dataList.size() == 0) {
+        if (dataList == null) {
             return;
         }
 

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.group.GroupSearchActivity">
+
+    <!-- 顶部搜索栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_48"
+        android:orientation="horizontal" >
+        <ImageView
+            android:id="@+id/img_return"
+            android:layout_width="@dimen/len_44"
+            android:layout_height="@dimen/len_44"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_touch_fg"
+            android:padding="@dimen/len_12"
+            android:src="@drawable/ic_left_arrow" />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/len_32"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/edit_keywords"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_edittext"
+                android:paddingStart="@dimen/len_36"
+                android:paddingEnd="@dimen/len_32"
+                android:textSize="@dimen/font_16"
+                android:textColor="@color/textPrimary"
+                android:gravity="center_vertical"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:hint="请输入内容" />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_search_2"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/len_10"/>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/img_clear_content"
+                android:layout_width="@dimen/len_12"
+                android:layout_height="@dimen/len_12"
+                android:src="@drawable/ic_clear_2"
+                android:background="@drawable/ic_touch_fg"
+                android:layout_marginEnd="@dimen/len_12"
+                android:layout_gravity="center_vertical|end"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/txt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="搜索"
+            android:background="@drawable/ic_touch_fg"
+            android:textColor="@color/textPrimary"
+            android:textSize="@dimen/font_16"
+            android:padding="@dimen/len_12"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 搜索内容fragment的占位 -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_src_morning" />
+
+
+        <LinearLayout
+            android:id="@+id/lay_history"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/len_36"
+            android:layout_marginEnd="@dimen/len_36">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_search_history" />
+
+            <!-- 给布局添加点击事件https://www.cnblogs.com/princenwj/p/5967336.html -->
+            <LinearLayout
+                android:id="@+id/lay_clear_all"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/len_36"
+                android:orientation="horizontal"
+                android:background="@drawable/ic_touch_fg"
+                android:layout_gravity="center_horizontal" >
+                <ImageView
+                    android:layout_width="@dimen/len_36"
+                    android:padding="@dimen/len_8"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_dustbin" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="清空搜索历史"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/font_16" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

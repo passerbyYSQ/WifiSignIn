@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ysq.wifisignin.R;
 import com.ysq.wifisignin.data.Account;
 import com.ysq.wifisignin.ui.activity.group.GroupCreateActivity;
+import com.ysq.wifisignin.ui.activity.group.GroupSearchActivity;
 import com.ysq.wifisignin.ui.common.BaseActivity;
 import com.ysq.wifisignin.ui.common.NavHelper;
 import com.ysq.wifisignin.ui.frag.main.MyGroupFragment;
@@ -84,6 +85,7 @@ public class MainActivity extends BaseActivity
         mNavigation.setOnNavigationItemSelectedListener(this);
 
         mFloatAction.setOnClickListener(this);
+        mStubIcon.setOnClickListener(this);
     }
 
     @Override
@@ -167,6 +169,15 @@ public class MainActivity extends BaseActivity
                     GroupCreateActivity.show(this);
                 } else if (currentTab.clx == MyInitiateFragment.class) {
                     UiHelper.showToast("我发起的签到");
+                }
+                break;
+            }
+            case R.id.img_stub: {
+                NavHelper.Tab<String> currentTab = mNavHelper.getCurrentTab();
+                if (currentTab.clx == MyGroupFragment.class) {
+                    GroupSearchActivity.show(this);
+                } else if (currentTab.clx == MyInitiateFragment.class) {
+                    UiHelper.showToast("现在我需要出席的签到");
                 }
                 break;
             }
