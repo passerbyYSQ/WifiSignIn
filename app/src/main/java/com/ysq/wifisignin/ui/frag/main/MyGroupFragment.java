@@ -74,6 +74,18 @@ public class MyGroupFragment extends BaseFragment {
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecycler.setAdapter(mAdapter = new JoinedGroupAdapter());
+        // 注意一定要早mAdapter赋值之后
+        // 在头部插入数据后，自动滚动至头部
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                // 判断是否是在头部插入数据
+                if (positionStart == 0) {
+                    mRecycler.scrollToPosition(positionStart + itemCount - 1);
+                }
+            }
+        });
 
         // 注意一定要早mAdapter赋值之后
         requestJoinedGroup();

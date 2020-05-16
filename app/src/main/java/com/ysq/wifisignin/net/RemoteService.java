@@ -15,6 +15,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 /**
  * 网络请求的所有的接口
@@ -51,4 +52,8 @@ public interface RemoteService {
     // 创建群
     @GET("group/list")
     Call<ResponseModel<List<Group>>> getJoinedGroup();
+
+    // 搜索群
+    @GET("group/search/{groupName}")
+    Call<ResponseModel<List<Group>>> searchGroup(@Path(value = "groupName") String groupName);
 }
