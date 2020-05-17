@@ -6,7 +6,6 @@ import android.text.TextUtils;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ysq.wifisignin.Application;
-import com.ysq.wifisignin.Factory;
 import com.ysq.wifisignin.bean.db.User;
 import com.ysq.wifisignin.bean.db.User_Table;
 

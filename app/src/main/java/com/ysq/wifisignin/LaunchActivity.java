@@ -87,7 +87,7 @@ public class LaunchActivity extends BaseActivity {
             public void onAnimationEnd(Animation animation) {
                 //mLoading.setProgress(1);
                 mLoading.stop();
-                mHandler.sendEmptyMessageDelayed(0, 1000);
+                mHandler.sendEmptyMessageDelayed(0, 500);
             }
 
             @Override

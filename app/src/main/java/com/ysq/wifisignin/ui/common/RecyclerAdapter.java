@@ -173,12 +173,16 @@ public abstract class RecyclerAdapter<DataType>
      */
     public void replace(Collection<DataType> dataList) {
         mDataList.clear();
-        if (dataList == null || dataList.size() == 0) {
+        if (dataList == null) {  // 不需要加dataList.size()==0的判断，有些地方不需要这种判断
             return;
         }
 
         mDataList.addAll(dataList);
         notifyDataSetChanged(); // 通知全部更新
+    }
+
+    public void replace(DataType... dataList) {
+        replace(CollectionUtil.toArrayList(dataList));
     }
 
     @Override

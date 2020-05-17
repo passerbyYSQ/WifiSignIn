@@ -10,6 +10,6 @@ public class AppDatabase {
 
     public static final String NAME = "wifi_sign_in";
     // 在db包下新增了文件，更改VERSION后会自动重新生成对应的表
-    public static final int VERSION = 5;
+    public static final int VERSION = 7;
 
 }

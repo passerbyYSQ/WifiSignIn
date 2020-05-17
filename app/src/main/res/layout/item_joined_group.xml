@@ -54,7 +54,6 @@
     <ImageView
         android:id="@+id/img_is_admin"
         tools:targetApi="LOLLIPOP"
-        android:visibility="gone"
         android:layout_width="@dimen/len_32"
         android:layout_height="@dimen/len_32"
         android:padding="@dimen/len_6"

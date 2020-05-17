@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mylhyl.circledialog.BaseCircleDialog;
 import com.mylhyl.circledialog.CircleDialog;
 import com.mylhyl.circledialog.params.ProgressParams;
-import com.mylhyl.circledialog.res.values.CircleColor;
 
 import butterknife.ButterKnife;
 
@@ -92,6 +91,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void dismissLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
+            progressDialog = null;
         }
     }
 
