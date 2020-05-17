@@ -57,6 +57,10 @@ public class DataListenerAdmin {
      */
     public static <DataType> void removeChangedListener(final Class tClass,
                                                         ChangedListener<DataType> listener) {
+        if (listener == null) {
+            return;
+        }
+
         Set<ChangedListener> listeners = instance.getListeners(tClass);
         if (listeners == null) {
             return;

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:paddingStart="@dimen/len_32"
+    android:paddingEnd="@dimen/len_32" >
+
+    <EditText
+        android:id="@+id/txt_enter_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="加群密码" />
+
+    <EditText
+        android:id="@+id/txt_my_alias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="您在群内的备注名" />
+
+</LinearLayout>

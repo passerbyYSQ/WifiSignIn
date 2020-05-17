@@ -2,13 +2,15 @@ package com.ysq.wifisignin.bean.db;
 
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author passerbyYSQ
  * @create 2020-04-11 22:12
  */
-public class Group extends BaseModel {
+public class Group extends BaseModel
+        implements Serializable {
 
     private Integer groupId;
     private String groupName;

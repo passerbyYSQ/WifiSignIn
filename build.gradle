@@ -46,7 +46,7 @@ ext {
     // 圆形图片
     circleimageviewVersion = '3.0.2'
     // 仿ios Dialog
-    iosDialogVersion = '5.2.0'
+    iosDialogVersion = '5.2.1'
     // 图片选择器
     rximagepickerVersion = '2.5.4'
     // 裁剪图片的插件
