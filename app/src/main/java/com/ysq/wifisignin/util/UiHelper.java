@@ -3,7 +3,6 @@ package com.ysq.wifisignin.util;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
-import androidx.fragment.app.FragmentManager;
 
 import com.ysq.wifisignin.Application;
 
@@ -41,5 +40,6 @@ public class UiHelper {
     public static void showToast(@StringRes int msgId) {
         showToast(instance.getString(msgId));
     }
+
 
 }

@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activity.group.GroupSearchActivity"></activity>
+        <activity android:name=".ui.activity.group.GroupUpdateActivity"></activity>
+        <activity android:name=".ui.activity.group.GroupSearchActivity" />
         <activity android:name=".ui.activity.group.GroupCreateActivity" />
 
         <provider

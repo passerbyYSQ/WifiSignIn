@@ -1,18 +1,22 @@
 package com.ysq.wifisignin.bean.api.group;
 
-import com.google.gson.annotations.Expose;
-
 /**
  * @author passerbyYSQ
  * @create 2020-04-12 13:58
  */
 public class JoinGroupModel {
-    @Expose
+
     private Integer groupId;
-    @Expose
+
     private String enterPassword;
-    @Expose
+
     private String alias; // 在群里的备注名
+
+    public JoinGroupModel(Integer groupId, String enterPassword, String alias) {
+        this.groupId = groupId;
+        this.enterPassword = enterPassword;
+        this.alias = alias;
+    }
 
     public Integer getGroupId() {
         return groupId;

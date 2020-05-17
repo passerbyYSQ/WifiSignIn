@@ -19,6 +19,7 @@
             android:layout_width="@dimen/len_44"
             android:layout_height="@dimen/len_44"
             android:layout_gravity="center_vertical"
+            android:tint="#515151"
             android:background="@drawable/ic_touch_fg"
             android:padding="@dimen/len_12"
             android:src="@drawable/ic_left_arrow" />

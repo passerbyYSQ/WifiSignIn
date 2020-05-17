@@ -19,8 +19,10 @@ import com.ysq.wifisignin.data.DataListenerAdmin;
 import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.ui.activity.group.GroupCreateActivity;
+import com.ysq.wifisignin.ui.activity.group.GroupUpdateActivity;
 import com.ysq.wifisignin.ui.common.BaseFragment;
 import com.ysq.wifisignin.ui.common.RecyclerAdapter;
+import com.ysq.wifisignin.ui.frag.group.GroupSearchFragment;
 import com.ysq.wifisignin.util.UiHelper;
 
 import net.qiujuer.genius.kit.handler.Run;
@@ -46,7 +48,9 @@ public class MyGroupFragment extends BaseFragment {
     SwipeRefreshLayout mRefresh;
 
     private RecyclerAdapter<Group> mAdapter;
-    private DataListenerAdmin.ChangedListener<Group> mGroupListener;
+    private DataListenerAdmin.ChangedListener<Group> mCreateListener;
+    private DataListenerAdmin.ChangedListener<Group> mJoinListener;
+
 
 
     public MyGroupFragment() {
@@ -65,7 +69,15 @@ public class MyGroupFragment extends BaseFragment {
 
         // 监听新建群组的页面，当创建成功，将新群组的数据回到过来
         DataListenerAdmin.addChangedListener(GroupCreateActivity.class,
-                mGroupListener = new DataListenerAdmin.ChangedListener<Group>() {
+                mCreateListener = new DataListenerAdmin.ChangedListener<Group>() {
+                    @Override
+                    public void onDataChanged(int action, Group... dataList) {
+                        mAdapter.addAtHead(dataList);
+                    }
+                });
+        // 监听GroupSearchFragment，一旦加群成功，会将新加入的群的数据回调过来
+        DataListenerAdmin.addChangedListener(GroupSearchFragment.class,
+                mJoinListener = new DataListenerAdmin.ChangedListener<Group>() {
                     @Override
                     public void onDataChanged(int action, Group... dataList) {
                         mAdapter.addAtHead(dataList);
@@ -73,7 +85,13 @@ public class MyGroupFragment extends BaseFragment {
                 });
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycler.setAdapter(mAdapter = new JoinedGroupAdapter());
+        mRecycler.setAdapter(mAdapter = new JoinedGroupAdapter(
+                new RecyclerAdapter.AdapterListenerImpl<Group>() {  // 设置点击事件
+                    @Override
+                    public void onItemClick(RecyclerAdapter.ViewHolder holder, Group data) {
+                        GroupUpdateActivity.show(getContext(), data);
+                    }
+                }));
         // 注意一定要早mAdapter赋值之后
         // 在头部插入数据后，自动滚动至头部
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -107,12 +125,14 @@ public class MyGroupFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         // 移除监听
-        if (mGroupListener != null) {
-            DataListenerAdmin.removeChangedListener(GroupCreateActivity.class, mGroupListener);
-        }
+        DataListenerAdmin.removeChangedListener(GroupCreateActivity.class, mCreateListener);
+        DataListenerAdmin.removeChangedListener(GroupSearchFragment.class, mJoinListener);
     }
 
     class JoinedGroupAdapter extends RecyclerAdapter<Group> {
+        public JoinedGroupAdapter(AdapterListener<Group> listener) {
+            super(listener);
+        }
 
         @Override
         protected int getItemViewType(int position, Group data) {
@@ -147,8 +167,8 @@ public class MyGroupFragment extends BaseFragment {
                 mDescription.setText(data.getDescription());
 
                 if (Account.getSelf().getUserId().equals(data.getCreatorId())) {
-                    mIsAdmin.setVisibility(View.VISIBLE);
                     mIsAdmin.setImageResource(R.drawable.ic_creator);
+                    mIsAdmin.setVisibility(View.VISIBLE);
                 }
             }
         }

@@ -32,7 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             setContentView(layId);
             // butterknife的视图绑定必须在setContentView
             initWidget();
-            initData();
+            initData(); // 先初始化控件，再初始化界面数据显示
         } else {
             finish();
         }
@@ -78,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void showLoading() {
+    public void showLoading() {
         progressDialog = new CircleDialog.Builder()
                 .setProgressStyle(ProgressParams.STYLE_SPINNER)//STYLE_HORIZONTAL 或 STYLE_SPINNER
                 .setProgressText("Loading...")
@@ -88,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected void dismissLoading() {
+    public void dismissLoading() {
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;

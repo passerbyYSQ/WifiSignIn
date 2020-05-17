@@ -91,14 +91,12 @@ public class UpdateInfoActivity extends BaseActivity {
     protected void initWidget() {
         super.initWidget();
 
-        // 将顶部状态栏和底部导航栏设置透明
+        // 将顶部状态栏和设置为透明
         if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
@@ -178,6 +176,7 @@ public class UpdateInfoActivity extends BaseActivity {
                     @Override
                     public boolean onClick(String text, View v) {
                         // 更新到界面
+                        text = text.trim();
                         if (!TextUtils.isEmpty(text)) {
                             mUsername.setText(text);
                             return true;
