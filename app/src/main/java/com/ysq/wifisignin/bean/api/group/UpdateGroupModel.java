@@ -1,6 +1,5 @@
 package com.ysq.wifisignin.bean.api.group;
 
-import com.google.gson.annotations.Expose;
 import com.ysq.wifisignin.bean.db.Group;
 
 
@@ -9,18 +8,28 @@ import com.ysq.wifisignin.bean.db.Group;
  * @create 2020-04-12 16:55
  */
 public class UpdateGroupModel {
-    @Expose
+
     private Integer groupId;
-    @Expose
+
     private String groupName;
-    @Expose
+
     private String enterPassword;
-    @Expose
+
     private String photo;
-    @Expose
+
     private String announcement;
-    @Expose
+
     private String description;
+
+    public UpdateGroupModel(Integer groupId, String groupName, String enterPassword,
+                            String photo, String announcement, String description) {
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.enterPassword = enterPassword;
+        this.photo = photo;
+        this.announcement = announcement;
+        this.description = description;
+    }
 
     public Group updateToGroup(Group group) {
         group.setGroupName(groupName);

@@ -51,7 +51,7 @@ public class MyGroupFragment extends BaseFragment {
     private DataListenerAdmin.ChangedListener<Group> mCreateListener;
     private DataListenerAdmin.ChangedListener<Group> mJoinListener;
 
-
+    private DataListenerAdmin.ChangedListener<Group> mUpdateListener;
 
     public MyGroupFragment() {
         // Required empty public constructor
@@ -90,6 +90,18 @@ public class MyGroupFragment extends BaseFragment {
                     @Override
                     public void onItemClick(RecyclerAdapter.ViewHolder holder, Group data) {
                         GroupUpdateActivity.show(getContext(), data);
+                        // 注册监听
+                        if (mUpdateListener != null) {
+                            DataListenerAdmin.removeChangedListener(
+                                    GroupUpdateActivity.class, mUpdateListener);
+                        }
+                        DataListenerAdmin.addChangedListener(GroupUpdateActivity.class,
+                                mUpdateListener = new DataListenerAdmin.ChangedListener<Group>() {
+                                    @Override
+                                    public void onDataChanged(int action, Group... dataList) {
+                                        holder.updateData(dataList[0]);
+                                    }
+                                });
                     }
                 }));
         // 注意一定要早mAdapter赋值之后
@@ -127,6 +139,7 @@ public class MyGroupFragment extends BaseFragment {
         // 移除监听
         DataListenerAdmin.removeChangedListener(GroupCreateActivity.class, mCreateListener);
         DataListenerAdmin.removeChangedListener(GroupSearchFragment.class, mJoinListener);
+        DataListenerAdmin.removeChangedListener(GroupUpdateActivity.class, mUpdateListener);
     }
 
     class JoinedGroupAdapter extends RecyclerAdapter<Group> {
@@ -169,6 +182,9 @@ public class MyGroupFragment extends BaseFragment {
                 if (Account.getSelf().getUserId().equals(data.getCreatorId())) {
                     mIsAdmin.setImageResource(R.drawable.ic_creator);
                     mIsAdmin.setVisibility(View.VISIBLE);
+                } else {
+                    // 不加这个else，刷新后，原本我不是创建者的群也会出现图标！
+                    mIsAdmin.setVisibility(View.INVISIBLE);
                 }
             }
         }

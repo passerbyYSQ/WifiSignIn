@@ -1,6 +1,7 @@
 package com.ysq.wifisignin.ui.frag.group;
 
 
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigInput;
+import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
 import com.ysq.wifisignin.R;
 import com.ysq.wifisignin.bean.ResponseModel;
@@ -129,9 +132,16 @@ public class GroupSearchFragment extends BaseFragment {
                 new CircleDialog.Builder()
                         .setTitle("加群")
                         .setInputHint("请输入正确的加群密码")
-                        .setInputCounter(32) // 字数限制
+                        .setInputCounter(16) // 字数限制
                         .setInputShowKeyboard(true)//自动弹出键盘
                         .setCancelable(false)
+                        .configInput(new ConfigInput() {
+                            @Override
+                            public void onConfig(InputParams params) {
+                                // 设置为密码输入框
+                                params.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD;
+                            }
+                        })
                         .setPositiveInput("确定", new OnInputClickListener() {
                             @Override
                             public boolean onClick(String text, View v) {

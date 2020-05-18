@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
@@ -26,7 +27,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mylhyl.circledialog.CircleDialog;
+import com.mylhyl.circledialog.callback.ConfigInput;
 import com.mylhyl.circledialog.callback.ConfigItems;
+import com.mylhyl.circledialog.params.InputParams;
 import com.mylhyl.circledialog.params.ItemsParams;
 import com.mylhyl.circledialog.res.values.CircleColor;
 import com.mylhyl.circledialog.view.listener.OnInputClickListener;
@@ -36,11 +39,13 @@ import com.ysq.wifisignin.Application;
 import com.ysq.wifisignin.Factory;
 import com.ysq.wifisignin.R;
 import com.ysq.wifisignin.bean.ResponseModel;
+import com.ysq.wifisignin.bean.api.group.UpdateGroupModel;
 import com.ysq.wifisignin.bean.db.Group;
 import com.ysq.wifisignin.bean.db.GroupMember;
 import com.ysq.wifisignin.bean.db.User;
 import com.ysq.wifisignin.data.Account;
 import com.ysq.wifisignin.data.Constant;
+import com.ysq.wifisignin.data.DataListenerAdmin;
 import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.net.UploadHelper;
@@ -63,6 +68,10 @@ import retrofit2.Response;
 public class GroupUpdateActivity extends BaseActivity {
     public static final int CHOOSE_PHOTO = 65;
 
+    @BindView(R.id.img_save_update)
+    ImageView mSaveUpdate;
+    @BindView(R.id.img_camera)
+    ImageView mCamera;
     @BindView(R.id.img_portrait)
     CircleImageView mGroupPortrait;
     @BindView(R.id.txt_group_name)
@@ -96,6 +105,7 @@ public class GroupUpdateActivity extends BaseActivity {
 
     private boolean IS_DISPLAY = false;  // 是否显示群成员列表
     private Group group;
+    private boolean havePermission; // 是否有权限修改群资料
 
     private GroupMemberAdapter mMemberAdapter;
     private List<GroupMember> members;
@@ -114,7 +124,7 @@ public class GroupUpdateActivity extends BaseActivity {
         // 取出数据。如果数据传递失败。返回False，直接结束当前页面
         group = (Group) bundle.getSerializable("group");
         portraitUrl = group.getPhoto();
-        //UiHelper.showToast(group.toString());
+        havePermission = Account.getSelf().getUserId().equals(group.getCreatorId());
         return group != null; // 如果数据传递失败。返回False，直接结束当前页面
     }
 
@@ -140,7 +150,6 @@ public class GroupUpdateActivity extends BaseActivity {
         super.initData();
         // 初始化页面数据。group肯定不为空
         // 因为在基类中已经做判断了，传递数据失败会直接finish掉界面
-
         Glide.with(this)
                 .load(group.getPhoto())
                 .centerCrop()
@@ -151,23 +160,35 @@ public class GroupUpdateActivity extends BaseActivity {
         mAnnouncement.setText(group.getAnnouncement());
 
         // 非创建者
-        if (!Account.getSelf().getUserId().equals(group.getCreatorId())) {
+        if (!havePermission) {
+            mSaveUpdate.setVisibility(View.GONE);
+            mCamera.setVisibility(View.GONE);
             mLayEnterPassword.setVisibility(View.GONE);
             mLineUnderPassword.setVisibility(View.GONE);
             mArrowGroupName.setVisibility(View.GONE);
             mArrowDescription.setVisibility(View.GONE);
             mArrowAnnouncement.setVisibility(View.GONE);
-
-            // 不可点击
-            mGroupName.setClickable(false);
-            mDescription.setClickable(false);
-            mAnnouncement.setClickable(false);
         }
     }
 
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_group_update;
+    }
+
+    @OnClick(R.id.img_save_update)
+    void onSaveUpdateClick() {
+        String groupName = mGroupName.getText().toString().trim(); // 输入时已经限制了一定不为空
+        String enterPassword = mEnterPassword.getText().toString().trim(); // 输入时已经限制了一定不为空
+        if (TextUtils.isEmpty(enterPassword)) {
+            enterPassword = group.getEnterPassword();
+        }
+        String description = mDescription.getText().toString().trim();
+        String announcement = mAnnouncement.getText().toString().trim();
+
+        UpdateGroupModel model = new UpdateGroupModel(group.getGroupId(), groupName,
+                enterPassword, portraitUrl, announcement, description);
+        requestUpdate(model);
     }
 
     @OnClick(R.id.img_camera)
@@ -219,26 +240,31 @@ public class GroupUpdateActivity extends BaseActivity {
     // 修改群名
     @OnClick(R.id.txt_group_name)
     void onGroupNameClick() {
-        new CircleDialog.Builder()
-                .setTitle("群名")
-                .setInputText(mGroupName.getText().toString())
-                .setInputCounter(16) // 字数限制
-                .setInputShowKeyboard(true)//自动弹出键盘
-                .setCancelable(false)
-                .setPositiveInput("确定", new OnInputClickListener() {
-                    @Override
-                    public boolean onClick(String text, View v) {
-                        // 更新到界面
-                        text = text.trim();
-                        if (!TextUtils.isEmpty(text)) {
-                            mGroupName.setText(text);
-                            return true;
+        String groupName = mGroupName.getText().toString();
+        if (!havePermission) {
+            UiHelper.showMsgDialog("群名", groupName, getSupportFragmentManager());
+        } else {
+            new CircleDialog.Builder()
+                    .setTitle("群名")
+                    .setInputText(groupName)
+                    .setInputCounter(16) // 字数限制
+                    .setInputShowKeyboard(true)//自动弹出键盘
+                    .setCancelable(false)
+                    .setPositiveInput("确定", new OnInputClickListener() {
+                        @Override
+                        public boolean onClick(String text, View v) {
+                            // 更新到界面
+                            text = text.trim();
+                            if (!TextUtils.isEmpty(text)) {
+                                mGroupName.setText(text);
+                                return true;
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                })
-                .setNegative("取消", null)
-                .show(getSupportFragmentManager());
+                    })
+                    .setNegative("取消", null)
+                    .show(getSupportFragmentManager());
+        }
     }
 
     @OnClick(R.id.txt_enter_password)
@@ -249,6 +275,14 @@ public class GroupUpdateActivity extends BaseActivity {
                 .setInputCounter(16) // 字数限制
                 .setInputShowKeyboard(true)//自动弹出键盘
                 .setCancelable(false)
+                .configInput(new ConfigInput() {
+                    @Override
+                    public void onConfig(InputParams params) {
+                        // 设置为密码输入框
+                        params.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD;
+                        //params.inputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD;
+                    }
+                })
                 .setPositiveInput("确定", new OnInputClickListener() {
                     @Override
                     public boolean onClick(String text, View v) {
@@ -267,42 +301,52 @@ public class GroupUpdateActivity extends BaseActivity {
 
     @OnClick(R.id.txt_group_description)
     void onDescriptionClick() {
-        new CircleDialog.Builder()
-                .setTitle("群描述")
-                .setInputText(mDescription.getText().toString())
-                .setInputHeight(125)//输入框高度
-                .setInputCounter(350) // 字数限制
-                .setInputShowKeyboard(true)//自动弹出键盘
-                .setCancelable(false)
-                .setPositiveInput("确定", new OnInputClickListener() {
-                    @Override
-                    public boolean onClick(String text, View v) {
-                        mDescription.setText(text); // 允许为空
-                        return true;
-                    }
-                })
-                .setNegative("取消", null)
-                .show(getSupportFragmentManager());
+        String description = mDescription.getText().toString();
+        if (!havePermission) {
+            UiHelper.showMsgDialog("群简介", description, getSupportFragmentManager());
+        } else {
+            new CircleDialog.Builder()
+                    .setTitle("群简介")
+                    .setInputText(description)
+                    .setInputHeight(125)//输入框高度
+                    .setInputCounter(350) // 字数限制
+                    .setInputShowKeyboard(true)//自动弹出键盘
+                    .setCancelable(false)
+                    .setPositiveInput("确定", new OnInputClickListener() {
+                        @Override
+                        public boolean onClick(String text, View v) {
+                            mDescription.setText(text); // 允许为空
+                            return true;
+                        }
+                    })
+                    .setNegative("取消", null)
+                    .show(getSupportFragmentManager());
+        }
     }
 
     @OnClick(R.id.txt_group_announcement)
     void onAnnouncementClick() {
-        new CircleDialog.Builder()
-                .setTitle("群公告")
-                .setInputText(mAnnouncement.getText().toString())
-                .setInputHeight(125)//输入框高度
-                .setInputCounter(350) // 字数限制
-                .setInputShowKeyboard(true)//自动弹出键盘
-                .setCancelable(false)
-                .setPositiveInput("确定", new OnInputClickListener() {
-                    @Override
-                    public boolean onClick(String text, View v) {
-                        mAnnouncement.setText(text); // 允许为空
-                        return true;
-                    }
-                })
-                .setNegative("取消", null)
-                .show(getSupportFragmentManager());
+        String announcement = mAnnouncement.getText().toString();
+        if (!havePermission) {
+            UiHelper.showMsgDialog("群公告", announcement, getSupportFragmentManager());
+        } else {
+            new CircleDialog.Builder()
+                    .setTitle("群公告")
+                    .setInputText(announcement)
+                    .setInputHeight(125)//输入框高度
+                    .setInputCounter(350) // 字数限制
+                    .setInputShowKeyboard(true)//自动弹出键盘
+                    .setCancelable(false)
+                    .setPositiveInput("确定", new OnInputClickListener() {
+                        @Override
+                        public boolean onClick(String text, View v) {
+                            mAnnouncement.setText(text); // 允许为空
+                            return true;
+                        }
+                    })
+                    .setNegative("取消", null)
+                    .show(getSupportFragmentManager());
+        }
     }
 
     @OnClick(R.id.lay_all_member)
@@ -325,46 +369,6 @@ public class GroupUpdateActivity extends BaseActivity {
         if (members == null){
             requestGetAllMember(group.getGroupId());
         }
-    }
-
-    // 网络请求获取群成员
-    public void requestGetAllMember(Integer groupId) {
-        mLoading.start();
-
-        RemoteService service = NetWork.remote();
-        Call<ResponseModel<List<GroupMember>>> call = service.getAllMember(groupId);
-        call.enqueue(new Callback<ResponseModel<List<GroupMember>>>() {
-            @Override
-            public void onResponse(Call<ResponseModel<List<GroupMember>>> call,
-                                   Response<ResponseModel<List<GroupMember>>> response) {
-                ResponseModel<List<GroupMember>> rspModel = response.body();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mLoading.stop();
-
-                        if (rspModel.isSucceed()) {
-                            // 回调数据
-                            members = rspModel.getResult();
-                            mMemberAdapter.replace(members);
-                        } else {
-                            UiHelper.showToast(rspModel.getMessage());
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<ResponseModel<List<GroupMember>>> call, Throwable t) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mLoading.stop();
-                        UiHelper.showToast("网络错误");
-                    }
-                });
-            }
-        });
     }
 
     // 权限回调
@@ -414,10 +418,6 @@ public class GroupUpdateActivity extends BaseActivity {
                     final Uri resultUri = UCrop.getOutput(data);
                     if (resultUri != null) {
                         uploadPortrait(resultUri.getPath());
-//                        Glide.with(this)
-//                                .load(resultUri)
-//                                .centerCrop()
-//                                .into(mPortrait);
                     }
                     break;
                 }
@@ -505,6 +505,89 @@ public class GroupUpdateActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    // 网络请求获取群成员
+    public void requestGetAllMember(Integer groupId) {
+        mLoading.start();
+
+        RemoteService service = NetWork.remote();
+        Call<ResponseModel<List<GroupMember>>> call = service.getAllMember(groupId);
+        call.enqueue(new Callback<ResponseModel<List<GroupMember>>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<List<GroupMember>>> call,
+                                   Response<ResponseModel<List<GroupMember>>> response) {
+                ResponseModel<List<GroupMember>> rspModel = response.body();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLoading.stop();
+
+                        if (rspModel.isSucceed()) {
+                            // 回调数据
+                            members = rspModel.getResult();
+                            mMemberAdapter.replace(members);
+                        } else {
+                            UiHelper.showToast(rspModel.getMessage());
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<List<GroupMember>>> call, Throwable t) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLoading.stop();
+                        UiHelper.showToast("网络错误");
+                    }
+                });
+            }
+        });
+    }
+
+    // 网络请求修改群资料
+    public void requestUpdate(UpdateGroupModel model) {
+        showLoading();
+
+        RemoteService service = NetWork.remote();
+        Call<ResponseModel<Group>> call = service.updateGroup(model);
+        call.enqueue(new Callback<ResponseModel<Group>>() {
+            @Override
+            public void onResponse(Call<ResponseModel<Group>> call,
+                                   Response<ResponseModel<Group>> response) {
+                ResponseModel<Group> rspModel = response.body();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissLoading();
+                        if (rspModel.isSucceed()) {
+                            UiHelper.showToast("修改成功");
+                            Group updatedGroup = rspModel.getResult();
+                            if (updatedGroup != null) {
+                                // 回调（分发）数据
+                                DataListenerAdmin.notifyChanged(GroupUpdateActivity.class,
+                                        DataListenerAdmin.ChangedListener.ACTION_UPDATE, updatedGroup);
+                            }
+                        } else{
+                            UiHelper.showToast(rspModel.getMessage());
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel<Group>> call, Throwable t) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismissLoading();
+                        UiHelper.showToast("网络错误");
+                    }
+                });
+            }
+        });
     }
 
 }

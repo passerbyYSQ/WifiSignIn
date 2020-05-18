@@ -3,8 +3,11 @@ package com.ysq.wifisignin.util;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
+import androidx.fragment.app.FragmentManager;
 
+import com.mylhyl.circledialog.CircleDialog;
 import com.ysq.wifisignin.Application;
+import com.ysq.wifisignin.R;
 
 import net.qiujuer.genius.kit.handler.Run;
 import net.qiujuer.genius.kit.handler.runable.Action;
@@ -41,5 +44,15 @@ public class UiHelper {
         showToast(instance.getString(msgId));
     }
 
-
+    // 显示一个提示框
+    public static void showMsgDialog(String title, String msg, FragmentManager fragmentManager) {
+        new CircleDialog.Builder()
+                .setTitle(title)
+                .setText(msg)//内容
+                .setTextColor(Application.getInstance().getResources()
+                        .getColor(R.color.textSecond))
+                .setPositiveInput("确定", null)
+                .setPositive("取消", null)
+                .show(fragmentManager);
+    }
 }

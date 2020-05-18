@@ -5,6 +5,7 @@ import com.ysq.wifisignin.bean.api.account.LoginModel;
 import com.ysq.wifisignin.bean.api.account.RegisterModel;
 import com.ysq.wifisignin.bean.api.group.CreateGroupModel;
 import com.ysq.wifisignin.bean.api.group.JoinGroupModel;
+import com.ysq.wifisignin.bean.api.group.UpdateGroupModel;
 import com.ysq.wifisignin.bean.api.user.UpdateUserInfoModel;
 import com.ysq.wifisignin.bean.db.Group;
 import com.ysq.wifisignin.bean.db.GroupMember;
@@ -66,4 +67,8 @@ public interface RemoteService {
     // 查询群成员
     @GET("group/members/{groupId}")
     Call<ResponseModel<List<GroupMember>>> getAllMember(@Path("groupId") Integer groupId);
+
+    // 修改群资料
+    @POST("group/update")
+    Call<ResponseModel<Group>> updateGroup(@Body UpdateGroupModel model);
 }
