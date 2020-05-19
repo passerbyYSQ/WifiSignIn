@@ -103,4 +103,18 @@ public class Initiate {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    @Override
+    public String toString() {
+        return "Initiate{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", user=" + user +
+                ", groupId=" + groupId +
+                ", group=" + group +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", macAddress='" + macAddress + '\'' +
+                '}';
+    }
 }

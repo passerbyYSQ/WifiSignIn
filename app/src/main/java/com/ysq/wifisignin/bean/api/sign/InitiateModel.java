@@ -1,6 +1,5 @@
 package com.ysq.wifisignin.bean.api.sign;
 
-import com.google.gson.annotations.Expose;
 import com.ysq.wifisignin.bean.db.Initiate;
 
 import java.util.Calendar;
@@ -12,12 +11,18 @@ import java.util.Date;
  * @create 2020-04-16 16:08
  */
 public class InitiateModel {
-    @Expose
+
     private Integer groupId; // 在哪个群发起
-    @Expose
+
     private Integer duration; // 时长。单位为：分钟
-    @Expose
+
     private String macAddress; // wifi的mac地址
+
+    public InitiateModel(Integer groupId, Integer duration, String macAddress) {
+        this.groupId = groupId;
+        this.duration = duration;
+        this.macAddress = macAddress;
+    }
 
     public Initiate updateToInitiate(Integer userId) {
         Calendar calendar = Calendar.getInstance();
@@ -51,5 +56,14 @@ public class InitiateModel {
 
     public void setMacAddress(String macAddress) {
         this.macAddress = macAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "InitiateModel{" +
+                "groupId=" + groupId +
+                ", duration=" + duration +
+                ", macAddress='" + macAddress + '\'' +
+                '}';
     }
 }

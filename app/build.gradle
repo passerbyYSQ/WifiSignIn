@@ -83,17 +83,12 @@ dependencies {
     // 仿ios dialog
     implementation "com.mylhyl:circleDialog:$rootProject.ext.iosDialogVersion"
 
-    // 图片选择器
-    // 基础组件
-    //implementation "com.github.qingmei2:rximagepicker:$rootProject.ext.rximagepickerVersion"
-    // 自定义UI层基础组件
-    //implementation "com.github.qingmei2:rximagepicker_support:$rootProject.ext.rximagepickerVersion"
-    // 微信图片选择器
-    //implementation "com.github.qingmei2:rximagepicker_support_wechat:$rootProject.ext.rximagepickerVersion"
-
     // 用于裁剪图片的插件
     implementation "com.yalantis:ucrop:$rootProject.ext.ucropVersion"
 
     // 阿里对象存储OSS
     implementation 'com.aliyun.dpa:oss-android-sdk:+'
+
+    // Android-PickerView  https://github.com/Bigkoo/Android-PickerView/
+    implementation "com.contrarywind:Android-PickerView:$rootProject.ext.pickerViewVersion"
 }

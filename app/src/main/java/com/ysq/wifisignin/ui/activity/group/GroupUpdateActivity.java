@@ -279,8 +279,8 @@ public class GroupUpdateActivity extends BaseActivity {
                     @Override
                     public void onConfig(InputParams params) {
                         // 设置为密码输入框
-                        params.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD;
-                        //params.inputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD;
+                        params.inputType = (InputType.TYPE_CLASS_TEXT
+                                | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     }
                 })
                 .setPositiveInput("确定", new OnInputClickListener() {

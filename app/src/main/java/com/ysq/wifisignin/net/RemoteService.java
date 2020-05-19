@@ -6,9 +6,11 @@ import com.ysq.wifisignin.bean.api.account.RegisterModel;
 import com.ysq.wifisignin.bean.api.group.CreateGroupModel;
 import com.ysq.wifisignin.bean.api.group.JoinGroupModel;
 import com.ysq.wifisignin.bean.api.group.UpdateGroupModel;
+import com.ysq.wifisignin.bean.api.sign.InitiateModel;
 import com.ysq.wifisignin.bean.api.user.UpdateUserInfoModel;
 import com.ysq.wifisignin.bean.db.Group;
 import com.ysq.wifisignin.bean.db.GroupMember;
+import com.ysq.wifisignin.bean.db.Initiate;
 import com.ysq.wifisignin.bean.db.User;
 
 import java.util.List;
@@ -71,4 +73,12 @@ public interface RemoteService {
     // 修改群资料
     @POST("group/update")
     Call<ResponseModel<Group>> updateGroup(@Body UpdateGroupModel model);
+
+    // 获取我具有管理权限的群
+    @GET("group/list/admin")
+    Call<ResponseModel<List<Group>>> getAdminGroup();
+
+    // 发起一次签到
+    @POST("sign/initiate")
+    Call<ResponseModel<Initiate>> initiate(@Body InitiateModel model);
 }

@@ -51,6 +51,6 @@ ext {
     rximagepickerVersion = '2.5.4'
     // 裁剪图片的插件
     ucropVersion = '2.2.0'
-    // 阿里对象存储OSS
-    //aliyunOssVersion = '3.8.0'
+    // Android-PickerView  https://github.com/Bigkoo/Android-PickerView/
+    pickerViewVersion = '4.1.9'
 }
