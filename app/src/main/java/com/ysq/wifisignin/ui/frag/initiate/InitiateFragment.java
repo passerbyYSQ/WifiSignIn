@@ -26,6 +26,7 @@ import com.ysq.wifisignin.bean.ResponseModel;
 import com.ysq.wifisignin.bean.api.sign.InitiateModel;
 import com.ysq.wifisignin.bean.db.Group;
 import com.ysq.wifisignin.bean.db.Initiate;
+import com.ysq.wifisignin.data.DataListenerAdmin;
 import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.ui.common.BaseActivity;
@@ -118,7 +119,7 @@ public class InitiateFragment extends BottomSheetDialogFragment {
             public void onOptionsSelect(int options1, int option2, int options3 , View v) {
                 Integer duration = options1 + 3;
                 InitiateModel model = new InitiateModel(selectedGroup.getGroupId(), duration, bssid);
-                requestInitiate(model);
+                requestInitiate(model, selectedGroup);
             }
         }).build();
         pvOptions.setPicker(items);
@@ -204,7 +205,7 @@ public class InitiateFragment extends BottomSheetDialogFragment {
     }
 
     // 发起签到
-    public void requestInitiate(InitiateModel model) {
+    public void requestInitiate(InitiateModel model, Group selectedGroup) {
         BaseActivity parent = (BaseActivity) context;
         parent.showLoading();
 
@@ -221,7 +222,11 @@ public class InitiateFragment extends BottomSheetDialogFragment {
                         parent.dismissLoading();
                         if (rspModel.isSucceed()) {
                             Initiate initiate = rspModel.getResult();
-                            UiHelper.showToast(initiate.toString());
+                            //UiHelper.showToast(initiate.toString());
+                            // 注意！！！此时initiate里面的Group为空
+                            initiate.setGroup(selectedGroup);
+                            DataListenerAdmin.notifyChanged(InitiateFragment.class,
+                                    DataListenerAdmin.ChangedListener.ACTION_ADD, initiate);
                         } else {
                             UiHelper.showToast(rspModel.getMessage());
                         }

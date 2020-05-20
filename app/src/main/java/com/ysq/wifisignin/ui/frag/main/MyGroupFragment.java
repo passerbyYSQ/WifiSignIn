@@ -119,18 +119,12 @@ public class MyGroupFragment extends BaseFragment {
 
         // 注意一定要早mAdapter赋值之后
         requestJoinedGroup();
-
         mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 requestJoinedGroup();
             }
         });
-    }
-
-    @Override
-    protected void initData() {
-        super.initData();
     }
 
     @Override

@@ -10,8 +10,8 @@ import java.util.Date;
  * @create 2020-04-16 16:57
  */
 public class Attend {
-    public static final Integer STATUS_IS_LATE = 0; // 迟到
-    public static final Integer STATUS_IN_TIME = 1; // 没有迟到
+    public static final Integer STATUS_NOT_ATTEND = 0; // 未出席
+    public static final Integer STATUS_ATTENDED = 1; // 已出席
 
     @Expose
     private Integer id;

@@ -21,6 +21,7 @@ import com.ysq.wifisignin.bean.ResponseModel;
 import com.ysq.wifisignin.bean.api.group.JoinGroupModel;
 import com.ysq.wifisignin.bean.db.Group;
 import com.ysq.wifisignin.bean.db.GroupMember;
+import com.ysq.wifisignin.data.Account;
 import com.ysq.wifisignin.data.DataListenerAdmin;
 import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
@@ -152,7 +153,7 @@ public class GroupSearchFragment extends BaseFragment {
                                     return false;
                                 } else {
                                     requestJoinGroup(new JoinGroupModel(mData.getGroupId(),
-                                            enterPassword, ""), mData);
+                                            enterPassword, Account.getSelf().getUserName()), mData);
                                     return true;
                                 }
                             }

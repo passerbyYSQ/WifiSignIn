@@ -53,6 +53,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
     implementation "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
+    implementation "com.squareup.retrofit2:converter-scalars:2.0.0"
 
     // 数据库框架
     // 使用api方式引入才能传递给app模块，使用implementation引入只能在内部使用此模块

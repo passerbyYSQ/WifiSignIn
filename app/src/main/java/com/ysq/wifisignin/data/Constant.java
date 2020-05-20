@@ -19,5 +19,5 @@ public interface Constant {
 
     String DEFAULT_PORTRAIT_URL = "https://italker-ysq.oss-cn-shenzhen.aliyuncs.com/default/bg_src_morning.jpg";
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 }

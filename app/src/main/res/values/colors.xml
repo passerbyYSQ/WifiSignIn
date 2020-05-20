@@ -19,4 +19,7 @@
     <color name="textLight">@color/colorLight</color>
     <color name="textDark">#202020</color>
 
+    <color name="okGreen">#60B95F</color>
+    <color name="notFinishedDark">#BABABA</color>
+
 </resources>

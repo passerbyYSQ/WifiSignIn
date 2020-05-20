@@ -7,7 +7,9 @@ import com.ysq.wifisignin.bean.api.group.CreateGroupModel;
 import com.ysq.wifisignin.bean.api.group.JoinGroupModel;
 import com.ysq.wifisignin.bean.api.group.UpdateGroupModel;
 import com.ysq.wifisignin.bean.api.sign.InitiateModel;
+import com.ysq.wifisignin.bean.api.sign.SignInModel;
 import com.ysq.wifisignin.bean.api.user.UpdateUserInfoModel;
+import com.ysq.wifisignin.bean.db.Attend;
 import com.ysq.wifisignin.bean.db.Group;
 import com.ysq.wifisignin.bean.db.GroupMember;
 import com.ysq.wifisignin.bean.db.Initiate;
@@ -15,6 +17,7 @@ import com.ysq.wifisignin.bean.db.User;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -81,4 +84,25 @@ public interface RemoteService {
     // 发起一次签到
     @POST("sign/initiate")
     Call<ResponseModel<Initiate>> initiate(@Body InitiateModel model);
+
+    // 查看我发起的所有的签到
+    @GET("sign/initiate/all")
+    Call<ResponseModel<List<Initiate>>> getAllMyInitiate();
+
+    // 查看某次签到的出席情况
+    @GET("sign/detail/{initiateId}")
+    Call<ResponseModel<List<Attend>>> getAttendDetail(@Path("initiateId") Integer initiateId);
+
+    // 获取必应的每日一图
+    @GET("http://guolin.tech/api/bing_pic")
+    Call<ResponseBody> getBingPic();
+
+    // 此时我需要出席的签到
+    @GET("sign/initiate/need")
+    Call<ResponseModel<List<Initiate>>> getMyNeedInitiate();
+
+    // 出席
+    @POST("sign/attend")
+    Call<ResponseModel<Attend>> goAttend(@Body SignInModel model);
+
 }

@@ -1,16 +1,10 @@
 package com.ysq.wifisignin.ui.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,22 +12,23 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomViewTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.mylhyl.circledialog.CircleDialog;
 import com.ysq.wifisignin.R;
 import com.ysq.wifisignin.data.Account;
+import com.ysq.wifisignin.net.NetWork;
+import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.ui.activity.group.GroupCreateActivity;
 import com.ysq.wifisignin.ui.activity.group.GroupSearchActivity;
-import com.ysq.wifisignin.ui.common.BaseActivity;
+import com.ysq.wifisignin.ui.activity.initiate.AttendActivity;
 import com.ysq.wifisignin.ui.common.NavHelper;
+import com.ysq.wifisignin.ui.common.WifiBssidActivity;
 import com.ysq.wifisignin.ui.frag.initiate.InitiateFragment;
 import com.ysq.wifisignin.ui.frag.main.MyGroupFragment;
 import com.ysq.wifisignin.ui.frag.main.MyInitiateFragment;
@@ -43,12 +38,20 @@ import com.ysq.wifisignin.util.UiHelper;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends WifiBssidActivity
         implements NavHelper.OnTabChangedListener<String>,
         BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    public static final String PREF_NAME = "data";
+    public static final String PREF_KEY_BING_PIC = "bing_daily_pic";
 
     @BindView(R.id.appbar)
     View mAppbarLay;
@@ -99,6 +102,14 @@ public class MainActivity extends BaseActivity
 
         mFloatAction.setOnClickListener(this);
         mStubIcon.setOnClickListener(this);
+
+//        SharedPreferences pref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+//        String bingPicUrl = pref.getString(PREF_KEY_BING_PIC, "");
+//        if (TextUtils.isEmpty(bingPicUrl)) {
+            requestBingPic();
+//        } else {
+//            glideHeaderLay(bingPicUrl);
+//        }
     }
 
     @Override
@@ -190,149 +201,89 @@ public class MainActivity extends BaseActivity
                 if (currentTab.clx == MyGroupFragment.class) {
                     GroupSearchActivity.show(this);
                 } else if (currentTab.clx == MyInitiateFragment.class) {
-                    UiHelper.showToast("现在我需要出席的签到");
+                    //UiHelper.showToast("现在我需要出席的签到");
+                    AttendActivity.show(this);
                 }
                 break;
             }
         }
     }
 
-    // 弹出确认提示框，请求用户手动开启定位服务
-    private void showLocationAlertDialog() {
-        new CircleDialog.Builder()
-                .setTitle("启动服务")
-                .setText("APP需要您手动开启定位服务，是否继续？")//内容
-                .setPositive("确定", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivityForResult(intent, 1);
-                    }
-                })
-                .setNegative("取消", null)
-                .show(getSupportFragmentManager());
-    }
-
-
-    /**
-     * 成功获取到当前的Wifi的bssid（mac地址）之后
-     * 做的操作，比如说请求存到服务端
-     *
-     * @param bssid
-     */
-    public void onGetMacSucceeded(String bssid) {
+    @Override
+    protected void onGetMacSucceeded(String bssid) {
         // 成功获取当前Wifi的bssid之后，才打开选择群组的fragment
         new InitiateFragment(bssid)
                 .show(getSupportFragmentManager(), InitiateFragment.class.getName());
     }
 
-    /**
-     * 尝试获取Wifi的Mac地址
-     *
-     * @return
-     */
-    public void tryGetWifiMac() {
-        if (!isWifiEnabled()) {
-            Toast.makeText(this, "请连接Wifi", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void glideHeaderLay(String url) {
+        Glide.with(MainActivity.this)
+                .load(url)
+                .placeholder(R.drawable.bg_src_morning)
+                .centerCrop()
+                .into(new CustomViewTarget<View, Drawable>(mAppbarLay) {
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
 
-        int curSdk = Build.VERSION.SDK_INT;
-        String bssid = null;
-        if (curSdk >= 27) {
-            // 判断是否授予APP定位权限
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                return;
-            } else {
-                if (!isLocationServiceEnable()) {
-                    // 让用户手动开启定位服务
-                    showLocationAlertDialog();
-                    return;
-                } else {
-                    bssid = getWifiMac();
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource,
+                                                @Nullable Transition<? super Drawable> transition) {
+                        this.view.setBackground(resource);
+                    }
+
+                    @Override
+                    protected void onResourceCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+    }
+
+    public void requestBingPic() {
+        RemoteService service = NetWork.remote();
+        Call<ResponseBody> call = service.getBingPic();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String bingPicUrl = new String(response.body().bytes());
+                    glideHeaderLay(bingPicUrl);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        } else {
-            bssid = getWifiMac();
-        }
 
-        onGetMacSucceeded(bssid);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    tryGetWifiMac();
-                } else {
-                    Toast.makeText(this, "您拒绝了APP启用定位服务",
-                            Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default: {
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                UiHelper.showToast("加载必应图片失败");
+                glideHeaderLay(null);
             }
-        }
+        });
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                String bingPicUrl = response.body();
+//                SharedPreferences.Editor editor =
+//                        getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
+//                editor.putString(PREF_KEY_BING_PIC, bingPicUrl);
+//                editor.apply();
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        glideHeaderLay(bingPicUrl);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                UiHelper.showToast("加载必应图片失败");
+//                glideHeaderLay(null);
+//            }
+//        });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case 1: {
-                tryGetWifiMac();
-                break;
-            }
-            default: {
-            }
-        }
-    }
 
-    /**
-     * 判断是否已连接Wifi
-     *
-     * @return
-     */
-    public boolean isWifiEnabled() {
-        Context appContext = getApplicationContext();
-        WifiManager wifiMgr = (WifiManager) appContext.getSystemService(Context.WIFI_SERVICE);
-        if (wifiMgr.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-            ConnectivityManager connManager = (ConnectivityManager) appContext
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo wifiInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            return wifiInfo.isConnected();
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 获取当前Wifi的mac地址
-     *
-     * @return
-     */
-    public String getWifiMac() {
-        WifiManager wifiManager = (WifiManager) getApplicationContext()
-                .getSystemService(Context.WIFI_SERVICE);
-        String bssid = wifiManager.getConnectionInfo().getBSSID();
-        return "02:00:00:00:00:00".equals(bssid) ? null : bssid;
-    }
-
-    /**
-     * 判断当前的手机的定位服务是否已开启
-     *
-     * @return
-     */
-    public boolean isLocationServiceEnable() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-    }
 }

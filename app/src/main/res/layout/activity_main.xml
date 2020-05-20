@@ -13,7 +13,6 @@
         android:layout_height="@dimen/actionBarWithStatusBarSize"
         android:elevation="@dimen/len_2"
         android:outlineProvider="bounds"
-        android:background="@drawable/bg_src_morning"
         tools:targetApi="lollipop">
 
         <!-- 帧布局管理区不包括顶部状态栏的部分，所以marginTop属性将顶部状态栏部分从帧布局管理器中移除 -->

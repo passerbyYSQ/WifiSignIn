@@ -1,5 +1,6 @@
 package com.ysq.wifisignin.ui.common;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -25,6 +26,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // 只要是继承BaseActivity的子类，在其创建时就将其引用存到ActivityCollector的集合中
         ActivityCollector.add(this);
+        // 锁定竖屏。如果子类中需要横屏，直接复写重新设置即可
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         if (initArgs(getIntent().getExtras())) {
             // 得到界面id，并设置到Activity界面中

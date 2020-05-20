@@ -10,18 +10,21 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent">
+        android:layout_height="@dimen/len_48"
+        android:background="#F2F2F2"
+        android:elevation="1dp"
+        android:outlineProvider="bounds"
+        tools:targetApi="lollipop" >
 
         <ImageView
             android:id="@+id/img_return"
-            android:layout_width="@dimen/len_32"
-            android:layout_height="@dimen/len_32"
+            android:layout_width="@dimen/len_24"
+            android:layout_height="@dimen/len_24"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/len_16"
-            android:foreground="@drawable/ic_touch_menu"
-            android:src="@drawable/ic_reply_black_32dp"
-            android:tint="@color/white" />
+            android:background="@drawable/ic_touch_fg"
+            android:src="@drawable/ic_left_arrow"
+            android:tint="#515151" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,14 +32,14 @@
             android:layout_gravity="center"
             android:text="新建群组"
             android:focusable="false"
-            android:textColor="@color/white"
+            android:textColor="#515151"
             android:textSize="@dimen/font_20" />
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_128"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="@dimen/len_8">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_portrait"
@@ -124,7 +127,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:layout_marginTop="@dimen/len_48"
+        android:layout_marginTop="@dimen/len_40"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/len_16">

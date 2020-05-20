@@ -14,6 +14,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * 网络请求的封装
@@ -89,6 +90,16 @@ public class NetWork {
     public static RemoteService remote() {
         return NetWork.getRetrofit()
                 .create(RemoteService.class);
+    }
+
+    // 不进行Json解析
+    public static RemoteServiceNotJson remoteNotJson() {
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl("http://guolin.tech/api/")
+                //设置ScalarsConverter
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        return retrofit.create(RemoteServiceNotJson.class);
     }
 
 }
