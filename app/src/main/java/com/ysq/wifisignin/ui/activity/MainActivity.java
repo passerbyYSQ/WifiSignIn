@@ -22,8 +22,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ysq.wifisignin.R;
 import com.ysq.wifisignin.data.Account;
-import com.ysq.wifisignin.net.NetWork;
-import com.ysq.wifisignin.net.RemoteService;
+import com.ysq.wifisignin.data.DataListenerAdmin;
+import com.ysq.wifisignin.data.HeaderSetting;
 import com.ysq.wifisignin.ui.activity.group.GroupCreateActivity;
 import com.ysq.wifisignin.ui.activity.group.GroupSearchActivity;
 import com.ysq.wifisignin.ui.activity.initiate.AttendActivity;
@@ -33,19 +33,12 @@ import com.ysq.wifisignin.ui.frag.initiate.InitiateFragment;
 import com.ysq.wifisignin.ui.frag.main.MyGroupFragment;
 import com.ysq.wifisignin.ui.frag.main.MyInitiateFragment;
 import com.ysq.wifisignin.ui.frag.main.PersonalCenterFragment;
-import com.ysq.wifisignin.util.UiHelper;
 
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends WifiBssidActivity
         implements NavHelper.OnTabChangedListener<String>,
@@ -70,6 +63,8 @@ public class MainActivity extends WifiBssidActivity
 
     private NavHelper<String> mNavHelper;
 
+    private DataListenerAdmin.ChangedListener<Object> mHeaderListener;
+
     public static void show(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
     }
@@ -92,6 +87,14 @@ public class MainActivity extends WifiBssidActivity
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
 
+        DataListenerAdmin.addChangedListener(HeaderSettingActivity.class,
+                mHeaderListener = new DataListenerAdmin.ChangedListener<Object>() {
+                    @Override
+                    public void onDataChanged(int action, Object... dataList) {
+                        loadHeader();
+                    }
+                });
+
         mNavHelper = new NavHelper<>(this, R.id.lay_container,
                 getSupportFragmentManager(), this);
         mNavHelper.add(R.id.action_group, new NavHelper.Tab<>(MyGroupFragment.class, "我的群组"))
@@ -103,13 +106,7 @@ public class MainActivity extends WifiBssidActivity
         mFloatAction.setOnClickListener(this);
         mStubIcon.setOnClickListener(this);
 
-//        SharedPreferences pref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-//        String bingPicUrl = pref.getString(PREF_KEY_BING_PIC, "");
-//        if (TextUtils.isEmpty(bingPicUrl)) {
-            requestBingPic();
-//        } else {
-//            glideHeaderLay(bingPicUrl);
-//        }
+        loadHeader();
     }
 
     @Override
@@ -132,6 +129,13 @@ public class MainActivity extends WifiBssidActivity
     }
 
     // 当Tab切换后的回调，基类中已经替我们完成了Fragment的切换
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DataListenerAdmin.removeChangedListener(HeaderSettingActivity.class, mHeaderListener);
+    }
 
     // 当NavigationItem被点击时触发的方法，转接给NavHelper处理
     @Override
@@ -216,50 +220,84 @@ public class MainActivity extends WifiBssidActivity
                 .show(getSupportFragmentManager(), InitiateFragment.class.getName());
     }
 
-    private void glideHeaderLay(String url) {
-        Glide.with(MainActivity.this)
-                .load(url)
-                .placeholder(R.drawable.bg_src_morning)
-                .centerCrop()
-                .into(new CustomViewTarget<View, Drawable>(mAppbarLay) {
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource,
-                                                @Nullable Transition<? super Drawable> transition) {
-                        this.view.setBackground(resource);
-                    }
-
-                    @Override
-                    protected void onResourceCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
+    private void loadHeader() {
+        int option = HeaderSetting.getOption();
+        if (option == 0) {
+            glideHeaderLay(null); // 默认
+        } else {
+            glideHeaderLay(HeaderSetting.getHeaderUrl());
+        }
     }
 
-    public void requestBingPic() {
-        RemoteService service = NetWork.remote();
-        Call<ResponseBody> call = service.getBingPic();
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    String bingPicUrl = new String(response.body().bytes());
-                    glideHeaderLay(bingPicUrl);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+    private void glideHeaderLay(String url) {
+        if (url != null) {
+            Glide.with(MainActivity.this)
+                    .load(url)
+                    .placeholder(R.drawable.bg_src_morning)
+                    .centerCrop()
+                    .into(new CustomViewTarget<View, Drawable>(mAppbarLay) {
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                UiHelper.showToast("加载必应图片失败");
-                glideHeaderLay(null);
-            }
-        });
+                        }
+
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource,
+                                                    @Nullable Transition<? super Drawable> transition) {
+                            this.view.setBackground(resource);
+                        }
+
+                        @Override
+                        protected void onResourceCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
+        } else {
+            Glide.with(MainActivity.this)
+                    .load(R.drawable.bg_src_morning)
+                    .centerCrop()
+                    .into(new CustomViewTarget<View, Drawable>(mAppbarLay) {
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+                        }
+
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource,
+                                                    @Nullable Transition<? super Drawable> transition) {
+                            this.view.setBackground(resource);
+                        }
+
+                        @Override
+                        protected void onResourceCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
+        }
+
+    }
+
+    // 加载bing的图片
+//    public void requestBingPic() {
+//        RemoteService service = NetWork.remote();
+//        Call<ResponseBody> call = service.getBingPic();
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                try {
+//                    String bingPicUrl = new String(response.body().bytes());
+//                    glideHeaderLay(bingPicUrl);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                UiHelper.showToast("加载必应图片失败");
+//                glideHeaderLay(null);
+//            }
+//        });
 //        call.enqueue(new Callback<String>() {
 //            @Override
 //            public void onResponse(Call<String> call, Response<String> response) {
@@ -283,7 +321,8 @@ public class MainActivity extends WifiBssidActivity
 //                glideHeaderLay(null);
 //            }
 //        });
-    }
+//    }
+
 
 
 }

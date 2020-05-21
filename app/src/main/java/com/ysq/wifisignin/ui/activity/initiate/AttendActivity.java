@@ -120,7 +120,7 @@ public class AttendActivity extends WifiBssidActivity {
                         .load(group.getPhoto())
                         .into(mGroupPortrait);
                 mGroupName.setText(group.getGroupName());
-                mGroupCreator.setText(String.valueOf(group.getCreatorId()));
+                mGroupCreator.setText(data.getUser().getUserName());
 
                 String duration = Constant.sdf.format(data.getStartTime()) +
                         endTimeSdf.format(data.getEndTime());

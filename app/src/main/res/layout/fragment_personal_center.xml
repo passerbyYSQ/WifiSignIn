@@ -5,11 +5,154 @@
     android:layout_height="match_parent"
     tools:context=".ui.frag.main.PersonalCenterFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="个人中心" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:foreground="@drawable/ic_touch_fg"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/len_16">
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/len_4"
+                    android:layout_marginEnd="@dimen/len_12"
+                    android:tint="@color/colorAccent"
+                    android:src="@drawable/ic_update"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/textPrimary"
+                    android:text="修改个人信息"/>
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_right_arrow" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eee"
+                android:layout_marginStart="@dimen/len_16"
+                android:layout_marginEnd="@dimen/len_16"  />
+            <LinearLayout
+                android:foreground="@drawable/ic_touch_fg"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/len_16">
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/len_4"
+                    android:layout_marginEnd="@dimen/len_12"
+                    android:tint="@color/colorAccent"
+                    android:src="@drawable/ic_history"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/textPrimary"
+                    android:text="我的出席记录"/>
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_right_arrow" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eee"
+                android:layout_marginStart="@dimen/len_16"
+                android:layout_marginEnd="@dimen/len_16"  />
+
+            <LinearLayout
+                android:id="@+id/lay_header_setting"
+                android:foreground="@drawable/ic_touch_fg"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/len_16">
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/len_4"
+                    android:layout_marginEnd="@dimen/len_12"
+                    android:tint="@color/colorAccent"
+                    android:src="@drawable/ic_setting"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/textPrimary"
+                    android:text="Header设置"/>
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_right_arrow" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eee"
+                android:layout_marginStart="@dimen/len_16"
+                android:layout_marginEnd="@dimen/len_16"  />
+
+            <LinearLayout
+                android:id="@+id/lay_logout"
+                android:foreground="@drawable/ic_touch_fg"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/len_16">
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/len_4"
+                    android:layout_marginEnd="@dimen/len_12"
+                    android:tint="#ccc"
+                    android:src="@drawable/ic_logout"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/textPrimary"
+                    android:text="退出登录"/>
+                <ImageView
+                    android:layout_width="@dimen/len_16"
+                    android:layout_height="@dimen/len_16"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_right_arrow" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eee"
+                android:layout_marginStart="@dimen/len_16"
+                android:layout_marginEnd="@dimen/len_16"  />
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

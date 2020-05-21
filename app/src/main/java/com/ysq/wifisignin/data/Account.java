@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.ysq.wifisignin.Application;
+import com.ysq.wifisignin.bean.db.SearchHistory;
 import com.ysq.wifisignin.bean.db.User;
 import com.ysq.wifisignin.bean.db.User_Table;
 
@@ -91,7 +92,16 @@ public class Account {
 
         SQLite.delete()
                 .from(User.class)
-                .where(User_Table.userId.eq(userId));
+                .where(User_Table.userId.eq(userId))
+                .execute();
+
+        // 清空搜索历史
+        SQLite.delete()
+                .from(SearchHistory.class)
+                .execute();
+
+        // 改为默认配置
+        HeaderSetting.save(HeaderSetting.OPTION_DEFAULT, "");
 
         token = null;
         userId = null;

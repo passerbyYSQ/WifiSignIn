@@ -2,10 +2,13 @@
 <resources>
     <!-- 基础主色 -->
     <color name="colorPrimary">#31373d</color>
+    <!--<color name="colorPrimary">@color/colorAccentAlpha</color>-->
     <color name="colorPrimaryDark">#31373d</color>
     <color name="colorAccent">#87CEFF</color>
     <color name="colorLight">@color/white</color>
     <color name="colorDark">@color/black</color>
+    <!--<color name="colorLight">#9CD5FC</color>-->
+    <!--<color name="colorDark">#63BDFC</color>-->
     <color name="colorAccentAlpha">#801572fc</color>
 
     <!-- 背景色 -->
@@ -21,5 +24,9 @@
 
     <color name="okGreen">#60B95F</color>
     <color name="notFinishedDark">#BABABA</color>
+
+    <!-- 提示颜色 -->
+    <color name="alertNormal">#4ce275</color>
+    <color name="alertImportant">#f98d2c</color>
 
 </resources>

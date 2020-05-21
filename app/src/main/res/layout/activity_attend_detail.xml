@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:text="8人未出席"
+            android:text="0人未出席"
             android:focusable="false"
             android:textColor="#515151"
             android:textSize="@dimen/font_16" />

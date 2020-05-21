@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.ysq.wifisignin.data.Account;
+import com.ysq.wifisignin.data.HeaderSetting;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -59,6 +60,9 @@ public class Factory {
         // 持久化的数据进行初始化
         // 再次打开App时，从本地数据库读取当前账户的User信息，并将有关信息存储到Account中
         Account.load(Application.getInstance());
+
+        // 加载Header配置信息
+        HeaderSetting.load();
     }
 
 

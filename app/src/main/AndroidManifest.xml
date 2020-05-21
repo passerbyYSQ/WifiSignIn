@@ -19,7 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activity.initiate.AttendActivity"></activity>
+
+        <activity android:name=".ui.activity.HeaderSettingActivity" />
+        <activity android:name=".ui.activity.initiate.AttendActivity" />
         <activity android:name=".ui.activity.initiate.AttendDetailActivity" />
         <activity android:name=".ui.activity.group.GroupUpdateActivity" />
         <activity android:name=".ui.activity.group.GroupSearchActivity" />
