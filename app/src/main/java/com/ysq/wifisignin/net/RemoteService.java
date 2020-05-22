@@ -105,4 +105,7 @@ public interface RemoteService {
     @POST("sign/attend")
     Call<ResponseModel<Attend>> goAttend(@Body SignInModel model);
 
+    // 我所有的出席记录
+    @GET("sign/all")
+    Call<ResponseModel<List<Attend>>> getMyAttendHistory();
 }

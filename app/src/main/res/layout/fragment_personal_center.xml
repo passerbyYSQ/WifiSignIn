@@ -16,6 +16,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/lay_update_info"
                 android:foreground="@drawable/ic_touch_fg"
                 android:clickable="true"
                 android:layout_width="match_parent"
@@ -49,6 +50,7 @@
                 android:layout_marginStart="@dimen/len_16"
                 android:layout_marginEnd="@dimen/len_16"  />
             <LinearLayout
+                android:id="@+id/lay_attend_history"
                 android:foreground="@drawable/ic_touch_fg"
                 android:clickable="true"
                 android:layout_width="match_parent"

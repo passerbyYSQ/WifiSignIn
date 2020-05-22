@@ -85,6 +85,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         progressDialog = new CircleDialog.Builder()
                 .setProgressStyle(ProgressParams.STYLE_SPINNER)//STYLE_HORIZONTAL 或 STYLE_SPINNER
                 .setProgressText("Loading...")
+                .setCancelable(false)
                 //.setProgressColor(CircleColor.FOOTER_BUTTON_TEXT_POSITIVE)
                 .setWidth((float) 0.6)
                 .show(getSupportFragmentManager());

@@ -36,10 +36,12 @@ import com.ysq.wifisignin.bean.ResponseModel;
 import com.ysq.wifisignin.bean.api.user.UpdateUserInfoModel;
 import com.ysq.wifisignin.bean.db.User;
 import com.ysq.wifisignin.data.Account;
+import com.ysq.wifisignin.data.DataListenerAdmin;
 import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.net.UploadHelper;
 import com.ysq.wifisignin.ui.common.BaseActivity;
+import com.ysq.wifisignin.ui.common.PhotoSelectedHelper;
 import com.ysq.wifisignin.util.UiHelper;
 
 import java.io.File;
@@ -262,7 +264,7 @@ public class UpdateInfoActivity extends BaseActivity {
         mUsername.setText(self.getUserName());
 
         this.sex = self.getSex();
-        mSex.setText(this.sex ==  User.MALE ? "男" : "女");
+        mSex.setText(this.sex.equals(User.MALE) ? "男" : "女");
 
         mDescription.setText(self.getDescription());
     }
@@ -329,7 +331,8 @@ public class UpdateInfoActivity extends BaseActivity {
                     // 通过UCrop得到对应的Uri
                     final Uri resultUri = UCrop.getOutput(data);
                     if (resultUri != null) {
-                        uploadPortrait(resultUri.getPath());
+//                        uploadPortrait(resultUri.getPath());
+                        uploadPortrait(PhotoSelectedHelper.parseImgUri(resultUri));
 //                        Glide.with(this)
 //                                .load(resultUri)
 //                                .centerCrop()
@@ -338,7 +341,8 @@ public class UpdateInfoActivity extends BaseActivity {
                     break;
                 }
                 case CHOOSE_PHOTO: {
-                    startCrop(data.getData());
+                    Uri uri = data.getData();
+                    startCrop(uri);
                     break;
                 }
                 case TAKE_PHOTO: {
@@ -404,7 +408,10 @@ public class UpdateInfoActivity extends BaseActivity {
                             // 将数据更新到本地数据库
                             User self = rspModel.getResult();
                             self.save();
+                            Account.getSelf().setPhoto(portraitUrl);
                             UiHelper.showToast("修改成功");
+                            DataListenerAdmin.notifyChanged(UpdateInfoActivity.class,
+                                    DataListenerAdmin.ChangedListener.ACTION_UPDATE);
                         } else {
                             UiHelper.showToast(rspModel.getMessage());
                         }

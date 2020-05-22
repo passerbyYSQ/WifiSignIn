@@ -77,25 +77,37 @@ public class HeaderSettingActivity extends BaseActivity {
     protected void initWidget() {
         super.initWidget();
 
-        mPreRadioId = mRadioGroup.getCheckedRadioButtonId();
-        mCurRadioId = mPreRadioId;
-
         option = HeaderSetting.getOption();
+        String headerUrl = HeaderSetting.getHeaderUrl();
         switch (option) {
             case HeaderSetting.OPTION_DEFAULT: {
                 ((RadioButton) findViewById(R.id.radio_default)).setChecked(true);
+//                Glide.with(this)
+//                        .load(R.drawable.bg_src_morning)
+//                        .centerCrop()
+//                        .into(mPreview);
                 break;
             }
             case HeaderSetting.OPTION_BING: {
                 ((RadioButton) findViewById(R.id.radio_bing)).setChecked(true);
+//                Glide.with(this)
+//                        .load(headerUrl)
+//                        .centerCrop()
+//                        .into(mPreview);
                 break;
             }
             case HeaderSetting.OPTION_CUSTOM: {
                 ((RadioButton) findViewById(R.id.radio_custom)).setChecked(true);
+//                Glide.with(this)
+//                        .load(headerUrl)
+//                        .centerCrop()
+//                        .into(mPreview);
                 break;
             }
         }
 
+        mPreRadioId = mRadioGroup.getCheckedRadioButtonId();
+        mCurRadioId = mPreRadioId;
     }
 
     @OnClick(R.id.img_return)
@@ -141,6 +153,7 @@ public class HeaderSettingActivity extends BaseActivity {
         if (mCurRadioId != mPreRadioId) {
             Glide.with(this)
                     .load(R.drawable.bg_src_morning)
+                    .centerCrop()
                     .into(mPreview);
         }
     }
@@ -156,6 +169,7 @@ public class HeaderSettingActivity extends BaseActivity {
         if (bingUrl != null) {
             Glide.with(HeaderSettingActivity.this)
                     .load(bingUrl)
+                    .centerCrop()
                     .into(mPreview);
         } else {
             requestBingPic();
@@ -254,6 +268,7 @@ public class HeaderSettingActivity extends BaseActivity {
                         // 先预览输出，之后再上传
                         Glide.with(this)
                                 .load(resultUri)
+                                .centerCrop()
                                 .into(mPreview);
                     }
                     break;
@@ -291,6 +306,8 @@ public class HeaderSettingActivity extends BaseActivity {
 
     // 往阿里OSS上传头像
     public void uploadPortrait(String localPath) {
+        showLoading();
+
         // 用子线程将本地图片上传到阿里OSS
         Factory.runOnAsync(new Runnable() {
             @Override
@@ -298,9 +315,12 @@ public class HeaderSettingActivity extends BaseActivity {
                 String url = UploadHelper.uploadPortrait(localPath);
                 // 如果为空，表示头像上传到阿里OSS失败
                 // 回到主线程更新界面
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dismissLoading();
+
                         if (!TextUtils.isEmpty(url)) {
                             HeaderSetting.save(HeaderSetting.OPTION_CUSTOM, url);
                             UiHelper.showToast("保存成功");

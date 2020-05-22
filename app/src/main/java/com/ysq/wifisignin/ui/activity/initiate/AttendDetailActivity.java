@@ -38,8 +38,8 @@ import retrofit2.Response;
  */
 public class AttendDetailActivity extends BaseActivity {
 
-    @BindView(R.id.img_return)
-    ImageView mReturn;
+//    @BindView(R.id.img_return)
+//    ImageView mReturn;
     @BindView(R.id.txt_count_not_attend)
     TextView mCountNotAttend;
     @BindView(R.id.swipe_refresh)

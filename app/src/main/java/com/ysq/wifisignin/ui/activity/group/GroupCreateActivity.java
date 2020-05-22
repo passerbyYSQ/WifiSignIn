@@ -36,6 +36,7 @@ import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.net.UploadHelper;
 import com.ysq.wifisignin.ui.common.BaseActivity;
+import com.ysq.wifisignin.ui.common.PhotoSelectedHelper;
 import com.ysq.wifisignin.util.UiHelper;
 
 import java.io.File;
@@ -98,8 +99,6 @@ public class GroupCreateActivity extends BaseActivity  {
             UiHelper.showToast("群名称不能为空");
         } else if (TextUtils.isEmpty(enterPassword)) {
             UiHelper.showToast("加群密码不能为空");
-        } else if (TextUtils.isEmpty(myAlias)) {
-            UiHelper.showToast("在群的备注名不能为空");
         } else if (TextUtils.isEmpty(portraitUrl)) {
 
             new CircleDialog.Builder()
@@ -196,7 +195,8 @@ public class GroupCreateActivity extends BaseActivity  {
                     // 通过UCrop得到对应的Uri
                     final Uri resultUri = UCrop.getOutput(data);
                     if (resultUri != null) {
-                        uploadPortrait(resultUri.getPath());
+                        //uploadPortrait(resultUri.getPath());
+                        uploadPortrait(PhotoSelectedHelper.parseImgUri(resultUri));
                         Glide.with(this)
                                 .load(resultUri)
                                 .centerCrop()

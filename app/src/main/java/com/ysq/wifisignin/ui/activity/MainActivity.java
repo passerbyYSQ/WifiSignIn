@@ -27,6 +27,7 @@ import com.ysq.wifisignin.data.HeaderSetting;
 import com.ysq.wifisignin.ui.activity.group.GroupCreateActivity;
 import com.ysq.wifisignin.ui.activity.group.GroupSearchActivity;
 import com.ysq.wifisignin.ui.activity.initiate.AttendActivity;
+import com.ysq.wifisignin.ui.activity.user.UpdateInfoActivity;
 import com.ysq.wifisignin.ui.common.NavHelper;
 import com.ysq.wifisignin.ui.common.WifiBssidActivity;
 import com.ysq.wifisignin.ui.frag.initiate.InitiateFragment;
@@ -64,6 +65,7 @@ public class MainActivity extends WifiBssidActivity
     private NavHelper<String> mNavHelper;
 
     private DataListenerAdmin.ChangedListener<Object> mHeaderListener;
+    private DataListenerAdmin.ChangedListener<Object> mPortraitListener;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
@@ -94,6 +96,13 @@ public class MainActivity extends WifiBssidActivity
                         loadHeader();
                     }
                 });
+        DataListenerAdmin.addChangedListener(UpdateInfoActivity.class,
+                mPortraitListener = new DataListenerAdmin.ChangedListener<Object>() {
+                    @Override
+                    public void onDataChanged(int action, Object... dataList) {
+                        loadPortrait();
+                    }
+                });
 
         mNavHelper = new NavHelper<>(this, R.id.lay_container,
                 getSupportFragmentManager(), this);
@@ -118,11 +127,7 @@ public class MainActivity extends WifiBssidActivity
         menu.performIdentifierAction(R.id.action_group, 0);
 
         // 加载头像
-        Glide.with(this)
-                .load(Account.getSelf().getPhoto())
-                .placeholder(R.drawable.passerby)
-                .centerCrop()
-                .into(mPortrait);
+        loadPortrait();
 
         // 右上角的图标
         //mStubIcon.setImageResource(R.drawable.ic_search);
@@ -135,6 +140,7 @@ public class MainActivity extends WifiBssidActivity
     protected void onDestroy() {
         super.onDestroy();
         DataListenerAdmin.removeChangedListener(HeaderSettingActivity.class, mHeaderListener);
+        DataListenerAdmin.removeChangedListener(UpdateInfoActivity.class, mPortraitListener);
     }
 
     // 当NavigationItem被点击时触发的方法，转接给NavHelper处理
@@ -220,6 +226,15 @@ public class MainActivity extends WifiBssidActivity
                 .show(getSupportFragmentManager(), InitiateFragment.class.getName());
     }
 
+    private void loadPortrait() {
+        // 加载头像
+        Glide.with(this)
+                .load(Account.getSelf().getPhoto())
+                .placeholder(R.drawable.passerby)
+                .centerCrop()
+                .into(mPortrait);
+    }
+
     private void loadHeader() {
         int option = HeaderSetting.getOption();
         if (option == 0) {
@@ -276,53 +291,5 @@ public class MainActivity extends WifiBssidActivity
         }
 
     }
-
-    // 加载bing的图片
-//    public void requestBingPic() {
-//        RemoteService service = NetWork.remote();
-//        Call<ResponseBody> call = service.getBingPic();
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                try {
-//                    String bingPicUrl = new String(response.body().bytes());
-//                    glideHeaderLay(bingPicUrl);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                UiHelper.showToast("加载必应图片失败");
-//                glideHeaderLay(null);
-//            }
-//        });
-//        call.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<String> call, Response<String> response) {
-//                String bingPicUrl = response.body();
-//                SharedPreferences.Editor editor =
-//                        getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit();
-//                editor.putString(PREF_KEY_BING_PIC, bingPicUrl);
-//                editor.apply();
-//
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        glideHeaderLay(bingPicUrl);
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//                UiHelper.showToast("加载必应图片失败");
-//                glideHeaderLay(null);
-//            }
-//        });
-//    }
-
-
 
 }

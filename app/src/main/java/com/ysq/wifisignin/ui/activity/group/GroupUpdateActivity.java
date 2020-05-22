@@ -50,6 +50,7 @@ import com.ysq.wifisignin.net.NetWork;
 import com.ysq.wifisignin.net.RemoteService;
 import com.ysq.wifisignin.net.UploadHelper;
 import com.ysq.wifisignin.ui.common.BaseActivity;
+import com.ysq.wifisignin.ui.common.PhotoSelectedHelper;
 import com.ysq.wifisignin.ui.common.RecyclerAdapter;
 import com.ysq.wifisignin.util.UiHelper;
 
@@ -417,7 +418,8 @@ public class GroupUpdateActivity extends BaseActivity {
                     // 通过UCrop得到对应的Uri
                     final Uri resultUri = UCrop.getOutput(data);
                     if (resultUri != null) {
-                        uploadPortrait(resultUri.getPath());
+                        //uploadPortrait(resultUri.getPath());
+                        uploadPortrait(PhotoSelectedHelper.parseImgUri(resultUri));
                     }
                     break;
                 }

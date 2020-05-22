@@ -187,6 +187,8 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
                 android:gravity="end"
                 android:textSize="16sp"
                 android:textColor="@color/textSecond"
@@ -214,9 +216,7 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:background="@drawable/btn_border_corner"
-        android:textColor="@color/colorAccent"
-        android:elevation="@dimen/len_4"
-        android:outlineProvider="bounds"
+        android:textColor="@color/colorAccentAlpha"
         android:text="保存修改" />
 
 
