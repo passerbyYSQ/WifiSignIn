@@ -137,6 +137,8 @@ public class AttendActivity extends WifiBssidActivity {
                             public void onClick(View view) {
                                 initiateId = mData.getId();
                                 tryGetWifiMac();
+                                startActivity(new Intent(AttendActivity.this,LBSActivity.class));
+
                             }
                         })
                         .setNegative("取消", null)

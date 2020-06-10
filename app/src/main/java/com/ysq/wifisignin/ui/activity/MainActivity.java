@@ -41,6 +41,8 @@ import net.qiujuer.genius.ui.widget.FloatActionButton;
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+
 public class MainActivity extends WifiBssidActivity
         implements NavHelper.OnTabChangedListener<String>,
         BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {

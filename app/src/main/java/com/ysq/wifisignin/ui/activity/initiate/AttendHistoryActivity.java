@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +41,10 @@ public class AttendHistoryActivity extends BaseActivity {
     RecyclerView mRecycler;
 
     private AttendHistoryAdapter mAdapter;
-
+    @OnClick(R.id.img_return)
+    void onReturnClick() {
+        finish();
+    }
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, AttendHistoryActivity.class));

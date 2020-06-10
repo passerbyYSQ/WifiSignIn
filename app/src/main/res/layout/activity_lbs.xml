@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.initiate.LBSActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/len_48"
+        android:background="#F2F2F2"
+        android:elevation="1dp"
+        android:paddingStart="@dimen/len_16"
+        android:paddingEnd="@dimen/len_16"
+        android:outlineProvider="bounds"
+        tools:targetApi="lollipop" >
+
+        <ImageView
+            android:id="@+id/img_return"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/ic_touch_fg"
+            android:src="@drawable/ic_left_arrow"
+            android:tint="#515151" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="您已成功签到！"
+            android:focusable="false"
+            android:textColor="#515151"
+            android:textSize="@dimen/font_20" />
+
+    </FrameLayout>
+    <LinearLayout
+        android:paddingStart="@dimen/len_20"
+        android:paddingEnd="@dimen/len_16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/position_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>>
+
+
+</LinearLayout>
