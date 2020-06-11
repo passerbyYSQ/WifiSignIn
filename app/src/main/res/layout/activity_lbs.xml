@@ -40,10 +40,11 @@
         android:paddingEnd="@dimen/len_16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/position_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:clickable="true"/>
     </LinearLayout>>
 
 
